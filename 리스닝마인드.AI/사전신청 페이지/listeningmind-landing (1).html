@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ListeningMind.AI — 소비자 검색 데이터로 만드는 마케팅 AI</title>
 <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
   :root {
@@ -944,8 +945,141 @@
   .delay-3 { animation-delay: 0.3s; }
   .delay-4 { animation-delay: 0.4s; }
 
+  /* ─── 왜 ListeningMind.AI인가 ─── */
+  .why-section { padding: 100px 5%; background: rgba(0,0,0,0.15); }
+
+  .diff-grid {
+    max-width: 1120px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+  }
+
+  .diff-col {
+    padding: 48px 40px;
+    background: var(--card-bg);
+  }
+
+  .diff-col.highlight {
+    background: rgba(75,124,250,0.08);
+    border-left: 1px solid var(--border-accent);
+  }
+
+  .diff-col-tag {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+
+  .diff-col-tag.vs { color: var(--text-muted); }
+  .diff-col-tag.lm { color: var(--accent-bright); }
+
+  .diff-col h3 {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 24px;
+    line-height: 1.3;
+  }
+
+  .diff-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .diff-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    font-size: 15px;
+    color: var(--text-secondary);
+    line-height: 1.5;
+  }
+
+  .diff-icon {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    margin-top: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 700;
+  }
+
+  .diff-icon.x     { background: rgba(255,80,80,0.15); color: #FF6B6B; }
+  .diff-icon.check { background: rgba(0,201,167,0.15); color: var(--teal); }
+
+  /* ─── 입력→분석→실행안 플로우 ─── */
+  .flow-diagram {
+    max-width: 1120px;
+    margin: 0 auto 48px;
+    display: flex;
+    align-items: stretch;
+    gap: 0;
+  }
+
+  .flow-step {
+    flex: 1;
+    text-align: center;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 36px 24px;
+    transition: border-color 0.2s;
+  }
+
+  .flow-step:hover { border-color: var(--border-accent); }
+
+  .flow-num {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    color: var(--accent-bright);
+    margin-bottom: 16px;
+  }
+
+  .flow-icon { font-size: 32px; margin-bottom: 14px; }
+
+  .flow-title {
+    font-size: 18px;
+    font-weight: 800;
+    color: var(--white);
+    margin-bottom: 10px;
+    letter-spacing: -0.3px;
+  }
+
+  .flow-desc {
+    font-size: 13px;
+    color: var(--text-secondary);
+    line-height: 1.65;
+  }
+
+  .flow-arrow {
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+    font-size: 28px;
+    color: var(--border-accent);
+    flex-shrink: 0;
+  }
+
   /* ─── RESPONSIVE ─── */
   @media (max-width: 900px) {
+    .diff-grid       { grid-template-columns: 1fr; }
+    .diff-col.highlight { border-left: none; border-top: 1px solid var(--border-accent); }
+    .flow-diagram    { flex-direction: column; }
+    .flow-arrow      { transform: rotate(90deg); padding: 8px 0; }
     .trust-metrics   { grid-template-columns: 1fr; }
     .features-split  { grid-template-columns: 1fr; }
     .feat-image-panel { min-height: 320px; }
@@ -973,9 +1107,8 @@
 <!-- HERO -->
 <section>
   <div class="hero">
-    <div class="hero-badge fade-up">
-      <span class="hero-badge-dot"></span>
-      글로벌 200개+ 기업이 선택한 검색 인텐트 AI
+    <div class="fade-up" style="margin-bottom:32px;">
+      <img src="lm-logo.png" alt="ListeningMind.AI" style="height:44px;width:auto;">
     </div>
 
     <h1 class="fade-up delay-1">
@@ -1088,7 +1221,7 @@
 <section class="value-section" id="value">
   <div class="section-header">
     <span class="section-tag">핵심 가치</span>
-    <h2>글로벌 마케터들이<br><span class="accent">선택하는 이유</span></h2>
+    <h2>월 3만원 대로 나만의<br><span class="accent">마케팅 AI를</span></h2>
   </div>
   <div class="trust-metrics">
     <div class="trust-metric-card">
@@ -1110,10 +1243,33 @@
 <section class="features-section" id="features">
   <div class="section-header">
     <span class="section-tag">주요 기능</span>
-    <h2>월 3만원 대로 나만의<br><span class="accent">마케팅 AI AGENT를</span></h2>
+    <h2>3단계로 완성되는<br><span class="accent">데이터 기반 마케팅</span></h2>
     <p class="section-desc">
       키워드 하나, 제품 정보 하나로<br>리포트부터 광고 소재까지 — 클릭 몇 번에 완성됩니다.
     </p>
+  </div>
+
+  <div class="flow-diagram">
+    <div class="flow-step">
+      <div class="flow-num">STEP 01</div>
+      <div class="flow-icon">✏️</div>
+      <div class="flow-title">입력</div>
+      <div class="flow-desc">키워드 또는<br>제품 정보를 입력합니다</div>
+    </div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-step">
+      <div class="flow-num">STEP 02</div>
+      <div class="flow-icon">🔍</div>
+      <div class="flow-title">분석</div>
+      <div class="flow-desc">30억 소비자 검색 데이터를<br>실시간 분석합니다</div>
+    </div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-step">
+      <div class="flow-num">STEP 03</div>
+      <div class="flow-icon">🚀</div>
+      <div class="flow-title">실행안 도출</div>
+      <div class="flow-desc">리포트·카피·배너까지<br>즉시 완성됩니다</div>
+    </div>
   </div>
 
   <div class="feature-toggle-wrap">
@@ -1297,10 +1453,67 @@
   </div>
 </section>
 
+<!-- 왜 ListeningMind.AI인가 -->
+<section class="why-section" id="why">
+  <div class="section-header">
+    <span class="section-tag">왜 ListeningMind.AI인가</span>
+    <h2>LLM과 다른 <span class="accent">'근거'</span> 기반 실행안</h2>
+    <p class="section-desc">LLM도 빠르죠, 하지만 그 안엔 소비자 인텐트가 빠졌습니다.<br>ChatGPT에게 시장을 물어보면 학습된 과거 데이터를 줍니다. 우리는 지금 이 순간 소비자가 검색하는 것을 보여줍니다.</p>
+  </div>
+
+  <div class="diff-grid">
+    <div class="diff-col">
+      <div class="diff-col-tag vs">일반 LLM 기반 AI</div>
+      <h3>그럴듯하지만<br>검증되지 않은 답변</h3>
+      <ul class="diff-list">
+        <li>
+          <div class="diff-icon x">✕</div>
+          <span>인터넷 학습 데이터 기반 — 실제 소비자 니즈와 괴리 발생</span>
+        </li>
+        <li>
+          <div class="diff-icon x">✕</div>
+          <span>카피나 아이디어를 생성하지만, 누가 실제로 검색하는지 알 수 없음</span>
+        </li>
+        <li>
+          <div class="diff-icon x">✕</div>
+          <span>트렌드 변화를 실시간으로 반영하지 못함</span>
+        </li>
+        <li>
+          <div class="diff-icon x">✕</div>
+          <span>결과물의 데이터 근거를 추적·검증할 수 없음</span>
+        </li>
+      </ul>
+    </div>
+    <div class="diff-col highlight">
+      <div class="diff-col-tag lm">ListeningMind.AI</div>
+      <h3>실검색 데이터가<br>뒷받침하는 인사이트</h3>
+      <ul class="diff-list">
+        <li>
+          <div class="diff-icon check">✓</div>
+          <span>실제 소비자 검색 경로 데이터 기반 — 지금 무엇을 고민하는지 파악</span>
+        </li>
+        <li>
+          <div class="diff-icon check">✓</div>
+          <span>CEP 세그먼트 자동 도출로 타겟 명확화 → 카피·이미지까지 일관성 유지</span>
+        </li>
+        <li>
+          <div class="diff-icon check">✓</div>
+          <span>최근 3개월 검색량 증감률 기반 실시간 트렌드 감지</span>
+        </li>
+        <li>
+          <div class="diff-icon check">✓</div>
+          <span>모든 결과물에 데이터 출처(키워드·검색량·경로) 명시</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>
+
 <!-- 이렇게 활용해요 -->
 <section class="usecase-section" id="usecases">
   <div class="section-header">
     <span class="section-tag">사용 후기</span>
+    <h2>실무자의 시간은 벌고, 의사결정의 질은 높이고.<br><span class="accent">데이터 기반의 업무 혁신, 지금 시작하세요.</span></h2>
   </div>
 
   <div class="usecase-grid container">
@@ -1350,33 +1563,34 @@
 
   <h2>6/1 출시 전<br><span class="accent">지금 신청하세요</span></h2>
   <p class="section-desc">
-    출시 전 사전 신청을 하신 분들께는<br>크레딧 2배를 드립니다.
+    사전 신청을 하신 분께는 출시 알람 및 크레딧 2배를 드립니다.
   </p>
 
   <div class="signup-card">
     <div class="form-grid">
       <div class="form-group">
         <label class="form-label">이름<span class="form-required">*</span></label>
-        <input type="text" class="form-input" placeholder="홍길동">
+        <input id="input-name" type="text" class="form-input" placeholder="홍길동">
       </div>
       <div class="form-group">
         <label class="form-label">이메일<span class="form-required">*</span></label>
-        <input type="email" class="form-input" placeholder="hello@company.com">
+        <input id="input-email" type="email" class="form-input" placeholder="hello@company.com">
       </div>
       <div class="form-group">
         <label class="form-label">회사명<span class="form-required">*</span></label>
-        <input type="text" class="form-input" placeholder="회사명을 입력해주세요">
+        <input id="input-company" type="text" class="form-input" placeholder="회사명을 입력해주세요">
       </div>
       <div class="form-group">
         <label class="form-label">직책 / 직무</label>
-        <input type="text" class="form-input" placeholder="예: 브랜드 마케터">
+        <input id="input-job" type="text" class="form-input" placeholder="예: 브랜드 마케터">
       </div>
       <div class="form-group full">
-        <label class="form-label">연락처</label>
-        <input type="tel" class="form-input" placeholder="010-0000-0000">
+        <label class="form-label">연락처<span class="form-required">*</span></label>
+        <input id="input-phone" type="tel" class="form-input" placeholder="010-0000-0000">
       </div>
     </div>
-    <button class="form-submit">사전 신청하기 →</button>
+    <button id="signup-btn" class="form-submit">사전 신청하기 →</button>
+    <div id="form-message" style="display:none; margin-top:16px; padding:14px 16px; border-radius:10px; font-size:14px; text-align:center;"></div>
 
     <div class="form-notice">
       <div class="form-notice-title">주의사항</div>
@@ -1428,6 +1642,57 @@
     el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
     observer.observe(el);
   });
+
+  // Supabase 연동
+  const _supabase = supabase.createClient(
+    'https://xiyapwjlxdfldkeveqjh.supabase.co',
+    'sb_publishable_2YgoRhtaMLaclt5EWQkOTg_-JhxnF8p'
+  );
+
+  document.getElementById('signup-btn').addEventListener('click', async () => {
+    const name      = document.getElementById('input-name').value.trim();
+    const email     = document.getElementById('input-email').value.trim();
+    const company   = document.getElementById('input-company').value.trim();
+    const job_title = document.getElementById('input-job').value.trim();
+    const phone     = document.getElementById('input-phone').value.trim();
+    const btn       = document.getElementById('signup-btn');
+    const msg       = document.getElementById('form-message');
+
+    if (!name)    { showMsg('[이름] 부분에 정보를 입력해주세요.', 'error'); return; }
+    if (!email)   { showMsg('[이메일] 부분에 정보를 입력해주세요.', 'error'); return; }
+    if (!company) { showMsg('[회사명] 부분에 정보를 입력해주세요.', 'error'); return; }
+    if (!phone)   { showMsg('[연락처] 부분에 정보를 입력해주세요.', 'error'); return; }
+
+    btn.disabled = true;
+    btn.textContent = '신청 중...';
+
+    const { error } = await _supabase.from('signups').insert([
+      { name, email, company, job_title, phone }
+    ]);
+
+    if (error) {
+      console.error(error);
+      showMsg('오류가 발생했습니다. 다시 시도해주세요.', 'error');
+      btn.disabled = false;
+      btn.textContent = '사전 신청하기 →';
+    } else {
+      showMsg('사전 신청이 완료됐습니다! 출시 시 이메일로 안내드릴게요 🎉', 'success');
+      btn.textContent = '신청 완료 ✓';
+    }
+  });
+
+  function showMsg(text, type) {
+    const msg = document.getElementById('form-message');
+    msg.textContent = text;
+    msg.style.display = 'block';
+    msg.style.background = type === 'success'
+      ? 'rgba(0,201,167,0.12)'
+      : 'rgba(255,80,80,0.12)';
+    msg.style.border = type === 'success'
+      ? '1px solid rgba(0,201,167,0.3)'
+      : '1px solid rgba(255,80,80,0.3)';
+    msg.style.color = type === 'success' ? '#00C9A7' : '#FF6B6B';
+  }
 </script>
 
 </body>
