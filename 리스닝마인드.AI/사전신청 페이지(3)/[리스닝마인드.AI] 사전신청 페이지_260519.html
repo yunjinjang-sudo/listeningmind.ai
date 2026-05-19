@@ -3,6 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Google Tag Manager -->
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-5TWXPND6');</script>
+  <!-- End Google Tag Manager -->
   <title>리스닝마인드.AI — 사전신청</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -450,7 +457,8 @@
     }
     .consent-text { font-size: 13px; font-weight: 600; color: #333; flex: 1; }
     .consent-text .req { color: #FF247A; margin-left: 2px; }
-    .consent-note { font-size: 11px; color: #FF247A; margin-top: 6px; margin-left: 2px; }
+    .consent-note { display: none !important; }
+    .consent-inline-note { font-size: 12px; font-weight: 400; color: #bbb; margin-left: 4px; }
     .consent-info { position: relative; display: inline-flex; align-items: center; }
     .consent-info-btn {
       width: 20px; height: 20px; border-radius: 50%;
@@ -820,6 +828,10 @@
   </style>
 </head>
 <body>
+  <!-- Google Tag Manager (noscript) -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5TWXPND6"
+  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <!-- End Google Tag Manager (noscript) -->
 
   <!-- ── 헤더 ── -->
   <header>
@@ -832,7 +844,7 @@
     <div class="inner">
       <div class="hero-badge">🎁 크레딧 2배 증정 + 알림받기</div>
       <h1>
-        <span class="gradient-text">30+억</span><br>
+        <span class="gradient-text">20+억</span><br>
         <span class="gradient-text">글로벌 소비자 인텐트</span><br>
         기반의 AI 에이전트
       </h1>
@@ -844,11 +856,11 @@
         </li>
         <li>
           <span class="check">✓</span>
-          30+억 네이버·구글 검색 인텐트 데이터 기반
+          한·미·일 시장 리포트와 광고 제작까지 자동화
         </li>
         <li>
           <span class="check">✓</span>
-          한·미·일 시장 리포트와 광고 제작까지 자동화
+          월 3만원 대로 만나는 에이전트
         </li>
       </ul>
       <a href="#register" class="hero-cta">사전 신청하고 혜택 받기 →</a>
@@ -975,7 +987,7 @@
           </div>
           <p class="card-main">상세페이지 내 한정된 정보로 광고 제작</p>
           <div class="compare-img">
-            <img src="비교 3.png" alt="타사 AI 에이전트 예시">
+            <img src="비교 5(수정).png" alt="타사 AI 에이전트 예시">
           </div>
           <div class="compare-price">
             <p class="price-label">광고 1건 제작 시</p>
@@ -997,7 +1009,7 @@
           </div>
           <p class="card-main">검색 데이터 기반, 상황 별 고민/맥락 데이터를 반영한 광고</p>
           <div class="compare-img">
-            <img src="비교 4.png" alt="리스닝마인드.AI 예시">
+            <img src="비교 6.png" alt="리스닝마인드.AI 예시">
           </div>
           <div class="flow">
             <span class="flow-step">세그먼트 생성</span>
@@ -1028,7 +1040,7 @@
       </h2>
       <p class="compare-section-label" style="margin-top: 24px;">리포트 제작 예시</p>
       <div class="insight-gif">
-        <img src="리포트.gif" alt="리포트 생성 예시">
+        <img src="리포트 예시(3).gif" alt="리포트 생성 예시">
       </div>
       <div class="insight-chips">
         <span class="data-chip">잠재고객 분석</span>
@@ -1040,7 +1052,7 @@
       </div>
       <p class="insight-desc">
         소비자가 직접 검색창에 입력한 키워드를 바탕으로<br>
-        리포트를 단 몇 초 만에 자동으로 생성합니다.
+        리포트를 단 몇 초 만에 생성합니다.
       </p>
     </div>
   </section>
@@ -1146,6 +1158,7 @@
               <input type="checkbox" id="f-consent">
               <span class="consent-text">
                 마케팅 수신 동의 <span class="req">*</span>
+                <span class="consent-inline-note">(비동의 시 사전 신청이 불가합니다.)</span>
               </span>
               <div class="consent-info">
                 <button type="button" class="consent-info-btn" tabindex="0">?</button>
@@ -1185,11 +1198,10 @@
   <!-- ── 하단 통합 섹션 ── -->
   <section class="bottom-unified">
     <div class="inner">
-      <p class="bottom-brand-label">CJ · 제일기획 · 삼성물산 외<br>글로벌 200+ 기업이 선택한 리스닝마인드</p>
-      <p class="bottom-main-pitch">이제 리스닝마인드.AI로 월 3만원대에 이용해 보세요.</p>
+      <p class="bottom-brand-label">CJ · 제일기획 · 삼성물산 외<br>글로벌 200+ 기업이 선택한 리스닝마인드 데이터</p>
       <hr class="bottom-divider">
-      <p class="bottom-cta-question">리스닝마인드.AI의 분석 근거가 궁금하다면?</p>
-      <p class="bottom-cta-desc">지금 리스닝마인드에서 소비자 데이터를 직접 확인할 수 있습니다.</p>
+      <p class="bottom-cta-question">리스닝마인드.AI의 분석 근거가 되는</p>
+      <p class="bottom-cta-question">독보적인 소비자 데이터를 확인해 보세요.</p>
       <a href="https://www.listeningmind.com/ko" class="lm-cta-btn" target="_blank" rel="noopener">리스닝마인드 바로 가기 →</a>
     </div>
   </section>
@@ -1200,7 +1212,15 @@
     <p>© 2025 리스닝마인드. All rights reserved.</p>
   </footer>
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
+    // Supabase 초기화
+    const { createClient } = supabase;
+    const sb = createClient(
+      'https://ezogwznjirhuvfvvajpy.supabase.co',
+      'sb_publishable_HEMr4eO304yseGU3hYfYKQ_Y6kZIPs8'
+    );
+
     // 부드러운 스크롤 (easeInOut 650ms)
     function smoothScrollTo(targetId) {
       const target = document.getElementById(targetId);
@@ -1233,7 +1253,7 @@
       { id: 'f-phone',   label: '연락처' },
     ];
 
-    document.getElementById('regForm').addEventListener('submit', function (e) {
+    document.getElementById('regForm').addEventListener('submit', async function (e) {
       e.preventDefault();
       let missing = [];
       requiredFields.forEach(({ id, label }) => {
@@ -1243,14 +1263,11 @@
       });
       const consent = document.getElementById('f-consent');
       const consentWrap = document.getElementById('consentWrap');
-      const consentNote = document.getElementById('consentNote');
       if (!consent.checked) {
         consentWrap.classList.add('invalid');
-        consentNote.style.display = 'block';
         missing.push('마케팅 수신동의');
       } else {
         consentWrap.classList.remove('invalid');
-        consentNote.style.display = 'none';
       }
       if (missing.length) {
         const first = requiredFields.find(r => !document.getElementById(r.id).value.trim());
@@ -1258,17 +1275,50 @@
         alert('다음 항목을 확인해 주세요:\n' + missing.join(', '));
         return;
       }
+
+      const submitBtn = this.querySelector('.submit-btn');
+      submitBtn.disabled = true;
+      submitBtn.textContent = '신청 중...';
+
+      const { error } = await sb.from('pre_registrations').insert([{
+        name:    document.getElementById('f-name').value.trim(),
+        email:   document.getElementById('f-email').value.trim(),
+        company: document.getElementById('f-company').value.trim(),
+        job:     document.getElementById('f-job').value.trim() || null,
+        phone:   document.getElementById('f-phone').value.trim(),
+        consent: true,
+      }]);
+
+      submitBtn.disabled = false;
+      submitBtn.textContent = '사전 신청하기';
+
+      if (error) {
+        alert('신청 중 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.');
+        console.error(error);
+        return;
+      }
+
       alert('사전 신청이 완료되었습니다!\n출시 소식과 크레딧 혜택을 등록하신 이메일로 안내드리겠습니다. 🎉');
       this.reset();
       requiredFields.forEach(({ id }) => document.getElementById(id).classList.remove('invalid'));
       consentWrap.classList.remove('invalid');
-      consentNote.style.display = 'none';
     });
 
     document.getElementById('f-consent').addEventListener('change', function () {
       if (this.checked) {
         document.getElementById('consentWrap').classList.remove('invalid');
-        document.getElementById('consentNote').style.display = 'none';
+      }
+    });
+
+    // 전화번호 자동 포맷 (010-0000-0000)
+    document.getElementById('f-phone').addEventListener('input', function () {
+      const nums = this.value.replace(/\D/g, '').slice(0, 11);
+      if (nums.length <= 3) {
+        this.value = nums;
+      } else if (nums.length <= 7) {
+        this.value = nums.slice(0, 3) + '-' + nums.slice(3);
+      } else {
+        this.value = nums.slice(0, 3) + '-' + nums.slice(3, 7) + '-' + nums.slice(7);
       }
     });
 
