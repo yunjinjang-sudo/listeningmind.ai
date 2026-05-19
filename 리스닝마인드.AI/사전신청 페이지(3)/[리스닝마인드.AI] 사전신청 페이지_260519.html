@@ -69,18 +69,16 @@
       padding: 7px 16px;
       border-radius: 100px;
       margin-bottom: 28px;
+      animation: badgeBlink 1.6s ease-in-out infinite;
     }
-    .hero-badge::before {
-      content: '';
-      width: 7px; height: 7px;
-      background: #7F18FF;
-      border-radius: 50%;
-      flex-shrink: 0;
-      animation: blink 1.6s ease-in-out infinite;
-    }
+    .hero-badge::before { display: none; }
     @keyframes blink {
       0%, 100% { opacity: 1; transform: scale(1); }
       50% { opacity: 0.4; transform: scale(1.4); }
+    }
+    @keyframes badgeBlink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.35; }
     }
     .hero h1 {
       font-size: 47px; /* 52px에서 10% 축소 */
@@ -535,12 +533,34 @@
     footer img { height: 22px; }
     footer p { font-size: 12px; color: #ccc; }
 
-    /* ── 히어로 로고 ── */
-    .hero-logo {
-      height: 28px;
-      display: block;
+    /* ── 히어로 출시일 텍스트 ── */
+    .hero-launch-date {
+      font-size: 18px;
+      font-weight: 800;
+      color: #aaa;
+      letter-spacing: 0.06em;
       margin: 0 auto 36px;
-      opacity: 0.7;
+      text-align: center;
+    }
+
+    /* ── 광고/리포트 제작 예시 라벨 ── */
+    .compare-section-label {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      font-size: 18px;
+      font-weight: 700;
+      color: #111;
+      letter-spacing: -0.01em;
+      margin: 28px 0 16px;
+    }
+    .compare-section-label::before,
+    .compare-section-label::after {
+      content: '';
+      width: 60px;
+      height: 1px;
+      background: #e0e0e0;
     }
 
     /* ── 광고 제작 예시 라벨 ── */
@@ -556,18 +576,21 @@
     /* ── 비교 박스 하단 요약 ── */
     .compare-summary {
       text-align: center;
-      font-size: 14px;
+      font-size: 20px;
       font-weight: 600;
       color: #888;
-      margin-top: 28px;
-      line-height: 1.7;
+      margin-top: 36px;
+      line-height: 1.6;
       word-break: keep-all;
     }
     .compare-summary strong {
       display: block;
       color: #111;
-      font-weight: 800;
-      font-size: 15px;
+      font-weight: 900;
+      font-size: 20px;
+      line-height: 1.5;
+      letter-spacing: -0.02em;
+      margin-top: 4px;
     }
 
     /* ── 인사이트 도출 ── */
@@ -588,48 +611,72 @@
       margin-bottom: 28px;
     }
     .insight-desc {
-      font-size: 16px;
-      color: #666;
-      line-height: 1.75;
+      font-size: 20px;
+      font-weight: 700;
+      color: #444;
+      line-height: 1.7;
+      letter-spacing: -0.01em;
       text-align: center;
-      max-width: 640px;
+      max-width: 720px;
       margin: 0 auto;
       word-break: keep-all;
     }
 
     /* ── 하단 통합 섹션 ── */
     .bottom-unified {
-      padding: 64px 0;
+      padding: 72px 0;
       background: #f9f9f9;
       border-top: 1px solid #f0f0f0;
+      text-align: center;
     }
-    .bottom-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 48px;
-      align-items: start;
+    .bottom-brand-label {
+      font-size: 30px;
+      font-weight: 900;
+      color: #111;
+      letter-spacing: -0.025em;
+      line-height: 1.3;
+      margin-bottom: 16px;
+      word-break: keep-all;
+      background: linear-gradient(130deg, #7F18FF 0%, #FF247A 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
     }
-    .bottom-eyebrow {
-      font-size: 12px;
-      font-weight: 700;
+    .bottom-main-pitch {
+      font-size: 30px;
+      font-weight: 400;
+      color: #111;
+      line-height: 1.3;
+      letter-spacing: -0.025em;
+      margin-bottom: 56px;
+      word-break: keep-all;
+    }
+    .bottom-divider {
+      border: none;
+      border-top: 1px solid #e0e0e0;
+      max-width: 160px;
+      margin: 0 auto 40px;
+    }
+    .bottom-cta-question {
+      font-size: 20px;
+      font-weight: 800;
+      color: #111;
+      margin-bottom: 8px;
+      word-break: keep-all;
+      letter-spacing: -0.01em;
+    }
+    .bottom-social-proof {
+      font-size: 13px;
+      font-weight: 600;
       color: #bbb;
       margin-bottom: 10px;
       word-break: keep-all;
     }
-    .bottom-heading {
-      font-size: 20px;
-      font-weight: 800;
-      color: #111;
-      line-height: 1.4;
-      letter-spacing: -0.02em;
-      margin-bottom: 12px;
-      word-break: keep-all;
-    }
-    .bottom-body {
-      font-size: 14px;
-      color: #666;
+    .bottom-cta-desc {
+      font-size: 15px;
+      color: #777;
+      margin-bottom: 28px;
       line-height: 1.65;
-      margin-bottom: 20px;
       word-break: keep-all;
     }
 
@@ -789,7 +836,7 @@
         <span class="gradient-text">글로벌 소비자 인텐트</span><br>
         기반의 AI 에이전트
       </h1>
-      <img src="logo_re.svg" alt="리스닝마인드.AI" class="hero-logo">
+      <p class="hero-launch-date">26.6.1 출시</p>
       <ul class="hero-bullets">
         <li>
           <span class="check">✓</span>
@@ -913,9 +960,10 @@
         우리가 AI AGENT를 믿지 못하는 이유
       </h2>
       <p class="diff-subtitle">
-        빠르게 답을 도출하고, 카피를 제안하는 AI Agent.
+        빠르게 결과물을 도출하는 AI Agent.
         <strong>그러나 단순히 빠른 것만으로는 성과가 나지 않습니다.</strong>
       </p>
+      <p class="compare-section-label">광고 제작 예시</p>
 
       <div class="compare-wrapper">
 
@@ -926,7 +974,6 @@
             <span class="card-focus">제작 편의성 증대에 초점</span>
           </div>
           <p class="card-main">상세페이지 내 한정된 정보로 광고 제작</p>
-          <p class="img-label">광고 제작 예시</p>
           <div class="compare-img">
             <img src="비교 3.png" alt="타사 AI 에이전트 예시">
           </div>
@@ -949,7 +996,6 @@
             <span class="card-focus">편의 + 광고 성과 증대</span>
           </div>
           <p class="card-main">검색 데이터 기반, 상황 별 고민/맥락 데이터를 반영한 광고</p>
-          <p class="img-label">광고 제작 예시</p>
           <div class="compare-img">
             <img src="비교 4.png" alt="리스닝마인드.AI 예시">
           </div>
@@ -968,7 +1014,7 @@
         </div>
 
       </div>
-      <p class="compare-summary">막연한 제작 편의성을 넘어,<strong>데이터 세그먼트로 성과까지 잡는 고효율 올인원 AI</strong></p>
+      <p class="compare-summary">단순한 제작 편의성을 넘어,<strong>데이터로 성과까지 잡는 고효율 올인원 AI</strong></p>
     </div>
   </section>
 
@@ -980,6 +1026,7 @@
         300만 원 상당의 글로벌 시장조사 리포트<br>
         <span class="gradient-text">클릭 한 번으로 완성</span>
       </h2>
+      <p class="compare-section-label" style="margin-top: 24px;">리포트 제작 예시</p>
       <div class="insight-gif">
         <img src="리포트.gif" alt="리포트 생성 예시">
       </div>
@@ -992,7 +1039,8 @@
         <span class="data-chip">시장 종합 분석</span>
       </div>
       <p class="insight-desc">
-        한/미/일 소비자가 직접 검색창에 입력한 데이터를 바탕으로 페인포인트부터 포지셔닝, CEP(카테고리 엔트리 포인트)까지 담긴 리포트를 단 몇 초 만에 자동으로 생성합니다.
+        소비자가 직접 검색창에 입력한 키워드를 바탕으로<br>
+        리포트를 단 몇 초 만에 자동으로 생성합니다.
       </p>
     </div>
   </section>
@@ -1063,7 +1111,7 @@
   <section class="reg-section" id="register">
     <div class="reg-inner">
       <p class="section-label" style="text-align:center;">사전신청</p>
-      <h2>사전 신청 한정<br><span class="gradient-text">크레딧 X2 증정</span></h2>
+      <h2>사전 신청자 한정<br><span class="gradient-text">크레딧 X2 증정</span></h2>
       <p class="reg-sub">사전 등록하고<br>가장 먼저 리스닝마인드.AI를 만나보세요.</p>
       <form id="regForm">
         <div class="form-grid">
@@ -1137,17 +1185,12 @@
   <!-- ── 하단 통합 섹션 ── -->
   <section class="bottom-unified">
     <div class="inner">
-      <div class="bottom-grid">
-        <div class="bottom-block">
-          <p class="bottom-eyebrow">CJ · 제일기획 · 삼성물산이 선택한 리스닝마인드</p>
-          <p class="bottom-heading">이제 AI 에이전트로 월 3만 원에 누리세요.</p>
-        </div>
-        <div class="bottom-block">
-          <p class="bottom-heading">리스닝마인드.AI의 분석 근거가 궁금하다면?</p>
-          <p class="bottom-body">지금 리스닝마인드에서 소비자 데이터를 직접 확인할 수 있습니다.</p>
-          <a href="https://www.listeningmind.com/ko" class="lm-cta-btn" target="_blank" rel="noopener">리스닝마인드 바로 가기 →</a>
-        </div>
-      </div>
+      <p class="bottom-brand-label">CJ · 제일기획 · 삼성물산 외<br>글로벌 200+ 기업이 선택한 리스닝마인드</p>
+      <p class="bottom-main-pitch">이제 리스닝마인드.AI로 월 3만원대에 이용해 보세요.</p>
+      <hr class="bottom-divider">
+      <p class="bottom-cta-question">리스닝마인드.AI의 분석 근거가 궁금하다면?</p>
+      <p class="bottom-cta-desc">지금 리스닝마인드에서 소비자 데이터를 직접 확인할 수 있습니다.</p>
+      <a href="https://www.listeningmind.com/ko" class="lm-cta-btn" target="_blank" rel="noopener">리스닝마인드 바로 가기 →</a>
     </div>
   </section>
 
