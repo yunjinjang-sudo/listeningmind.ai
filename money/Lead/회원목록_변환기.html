@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>회원목록 변환기</title>
+  <script src="https://accounts.google.com/gsi/client" async></script>
+  <script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif;
+      background: #f5f6fa;
+      color: #2d3436;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px 20px;
+    }
+
+    h1 { font-size: 22px; font-weight: 700; margin-bottom: 6px; color: #1e1e2e; }
+    .subtitle { font-size: 13px; color: #636e72; margin-bottom: 32px; }
+
+    .card {
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 2px 16px rgba(0,0,0,0.07);
+      padding: 28px 32px;
+      width: 100%;
+      max-width: 720px;
+      margin-bottom: 20px;
+    }
+
+    .section-title {
+      font-size: 12px;
+      font-weight: 700;
+      color: #b2bec3;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 16px;
+    }
+
+    /* 설정 */
+    .setup-banner {
+      background: #fff8e1;
+      border: 1px solid #ffe082;
+      border-radius: 10px;
+      padding: 16px 20px;
+      font-size: 13px;
+      color: #795548;
+      margin-bottom: 16px;
+    }
+    .setup-banner strong { color: #5d4037; }
+    .setup-banner ol { margin: 10px 0 0 18px; line-height: 2; }
+    .setup-banner a { color: #6c5ce7; }
+
+    .client-id-row {
+      display: flex;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    input[type="text"] {
+      flex: 1;
+      padding: 10px 14px;
+      border: 1px solid #dfe6e9;
+      border-radius: 8px;
+      font-size: 13px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    input[type="text"]:focus { border-color: #6c5ce7; }
+
+    .btn-sm {
+      padding: 10px 18px;
+      border: none;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+      background: #6c5ce7;
+      color: #fff;
+    }
+    .btn-sm:hover { background: #5a4bd1; }
+
+    .client-id-saved {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #f0fdf4;
+      border: 1px solid #86efac;
+      border-radius: 10px;
+      padding: 12px 16px;
+      font-size: 13px;
+      color: #166534;
+    }
+    .client-id-saved .change-btn {
+      font-size: 12px;
+      color: #6c5ce7;
+      cursor: pointer;
+      background: none;
+      border: none;
+      font-weight: 600;
+    }
+
+    /* 업로드 */
+    .drop-zone {
+      border: 2px dashed #b2bec3;
+      border-radius: 12px;
+      padding: 44px 24px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s;
+      background: #f8f9fe;
+    }
+    .drop-zone:hover, .drop-zone.over { border-color: #6c5ce7; background: #f0eeff; }
+    .drop-zone .icon { font-size: 38px; margin-bottom: 10px; }
+    .drop-zone .label { font-size: 15px; color: #636e72; margin-bottom: 6px; }
+    .drop-zone .hint { font-size: 12px; color: #b2bec3; }
+    .drop-zone input[type="file"] { display: none; }
+
+    .file-info {
+      display: none;
+      align-items: center;
+      gap: 12px;
+      background: #f0fdf4;
+      border: 1px solid #86efac;
+      border-radius: 10px;
+      padding: 14px 18px;
+      margin-top: 14px;
+    }
+    .file-info .fi-name { font-size: 14px; font-weight: 600; color: #166534; }
+    .file-info .fi-rows { font-size: 12px; color: #16a34a; }
+
+    /* 버튼 */
+    .btn {
+      display: block;
+      width: 100%;
+      padding: 14px;
+      border: none;
+      border-radius: 10px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      margin-top: 12px;
+    }
+    .btn-primary { background: #6c5ce7; color: #fff; }
+    .btn-primary:hover { background: #5a4bd1; }
+    .btn-primary:disabled { background: #d4cff5; cursor: not-allowed; }
+
+    .btn-google {
+      background: #fff;
+      color: #3c4043;
+      border: 1px solid #dadce0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+    .btn-google:hover { background: #f8f9fa; box-shadow: 0 1px 3px rgba(0,0,0,0.12); }
+    .btn-google:disabled { opacity: 0.5; cursor: not-allowed; }
+    .btn-google svg { flex-shrink: 0; }
+
+    .btn-download-secondary {
+      background: none;
+      border: 1px solid #dfe6e9;
+      color: #636e72;
+      font-size: 13px;
+      padding: 10px;
+    }
+    .btn-download-secondary:hover { background: #f5f6fa; }
+
+    /* 알림 */
+    .alert {
+      display: none;
+      align-items: center;
+      gap: 8px;
+      border-radius: 10px;
+      padding: 12px 16px;
+      font-size: 13px;
+      margin-top: 12px;
+    }
+    .alert-warning { background: #fffbeb; border: 1px solid #fcd34d; color: #92400e; }
+    .alert-error   { background: #fef2f2; border: 1px solid #fca5a5; color: #991b1b; }
+    .alert-success { background: #f0fdf4; border: 1px solid #86efac; color: #166534; }
+
+    /* 미리보기 */
+    .preview-wrap { overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; font-size: 12px; }
+    th {
+      background: #6c5ce7; color: #fff;
+      padding: 8px 10px; text-align: left;
+      white-space: nowrap; font-weight: 600;
+    }
+    th small { display: block; font-weight: 400; opacity: .8; font-size: 10px; }
+    td {
+      padding: 7px 10px; border-bottom: 1px solid #f0f0f0;
+      white-space: nowrap; max-width: 180px;
+      overflow: hidden; text-overflow: ellipsis;
+    }
+    tr:nth-child(even) td { background: #fafafe; }
+
+    /* 규칙 */
+    .rules-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .rule-item { background: #f8f9fe; border-radius: 8px; padding: 10px 14px; font-size: 12px; }
+    .rule-col { font-weight: 700; color: #6c5ce7; margin-bottom: 2px; }
+    .rule-desc { color: #636e72; }
+  </style>
+</head>
+<body>
+
+<h1>회원목록 변환기</h1>
+<p class="subtitle">엑셀 회원목록 → Google 스프레드시트 자동 변환</p>
+
+
+<!-- 업로드 카드 -->
+<div class="card">
+  <div class="section-title">파일 업로드</div>
+  <div class="drop-zone" id="dropZone">
+    <div class="icon">📂</div>
+    <div class="label">여기에 엑셀 파일을 드래그하거나 클릭하세요</div>
+    <div class="hint">.xlsx, .xls, .csv 파일 지원</div>
+    <input type="file" id="fileInput" accept=".xlsx,.xls,.csv">
+  </div>
+
+  <div class="file-info" id="fileInfo">
+    <span style="font-size:24px">📊</span>
+    <div>
+      <div class="fi-name" id="fileName"></div>
+      <div class="fi-rows" id="fileRows"></div>
+    </div>
+  </div>
+
+  <div class="alert alert-warning" id="statusBar">⏳ <span id="statusMsg"></span></div>
+  <div class="alert alert-error"   id="errorBar"></div>
+  <div class="alert alert-success" id="successBar"></div>
+
+  <button class="btn btn-primary" id="convertBtn" disabled>변환하기</button>
+
+  <!-- Google 내보내기 버튼 -->
+  <button class="btn btn-google" id="exportBtn" disabled>
+    <svg width="18" height="18" viewBox="0 0 24 24">
+      <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+      <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+      <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z"/>
+      <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+    </svg>
+    Google 스프레드시트로 내보내기
+  </button>
+
+  <button class="btn btn-download-secondary" id="downloadBtn" style="display:none">
+    ⬇️ 엑셀 파일로 다운로드
+  </button>
+</div>
+
+<!-- 미리보기 -->
+<div class="card" id="previewCard" style="display:none">
+  <div class="section-title">변환 결과 미리보기 (상위 5행)</div>
+  <div class="preview-wrap" id="previewWrap"></div>
+</div>
+
+<!-- 변환 규칙 -->
+<div class="card">
+  <div class="section-title">변환 규칙</div>
+
+  <div style="font-size:12px;font-weight:700;color:#6c5ce7;margin-bottom:10px;padding:8px 12px;background:#f0eeff;border-radius:8px;">
+    📁 파일명이 <strong>'회원목록'</strong>으로 시작할 때 적용
+  </div>
+  <div class="rules-grid">
+    <div class="rule-item"><div class="rule-col">A열 → 업데이트 일자 (by 윤진P)</div><div class="rule-desc">변환 실행 날짜 자동 입력 (YYYY-MM-DD)</div></div>
+    <div class="rule-item"><div class="rule-col">B열 → 리드 인입/허블 가입 일자</div><div class="rule-desc">Q열 가입일시 날짜만 추출</div></div>
+    <div class="rule-item"><div class="rule-col">C열 → Lead 구분</div><div class="rule-desc">H열 '오프라인 계약' → '고객사'</div></div>
+    <div class="rule-item"><div class="rule-col">D열 → Assignee Email</div><div class="rule-desc">빈칸</div></div>
+    <div class="rule-item"><div class="rule-col">E열 → Organization Name</div><div class="rule-desc">D열 회사명</div></div>
+    <div class="rule-item"><div class="rule-col">F열 → Contact Full Name</div><div class="rule-desc">B열 사용자명</div></div>
+    <div class="rule-item"><div class="rule-col">G열 → 유입 경로(대)</div><div class="rule-desc">모두 '트라이얼 가입'</div></div>
+    <div class="rule-item"><div class="rule-col">H열 → 유입 경로(중)</div><div class="rule-desc">빈칸</div></div>
+    <div class="rule-item"><div class="rule-col">I열 → 유입 경로(소)</div><div class="rule-desc">빈칸</div></div>
+    <div class="rule-item"><div class="rule-col">J열 → 인입 시기(C)</div><div class="rule-desc">B열 날짜 → YYYY.MM 형식</div></div>
+    <div class="rule-item"><div class="rule-col">K열 → 부서</div><div class="rule-desc">E열 '/' 앞 단어</div></div>
+    <div class="rule-item"><div class="rule-col">L열 → Contact Title</div><div class="rule-desc">E열 '/' 뒤 단어</div></div>
+    <div class="rule-item"><div class="rule-col">M열 → Contact Phone(수정 전)</div><div class="rule-desc">C열 원본 전화번호</div></div>
+    <div class="rule-item"><div class="rule-col">N열 → Contact Phone</div><div class="rule-desc">C열 → 010-XXXX-XXXX 형식</div></div>
+    <div class="rule-item"><div class="rule-col">O열 → Contact Email</div><div class="rule-desc">F열 이메일</div></div>
+    <div class="rule-item"><div class="rule-col">P열 → 연 매출액</div><div class="rule-desc">빈칸</div></div>
+    <div class="rule-item"><div class="rule-col">Q열 → Industry</div><div class="rule-desc">빈칸</div></div>
+    <div class="rule-item"><div class="rule-col">R열 → Description</div><div class="rule-desc">빈칸</div></div>
+  </div>
+
+  <div style="font-size:12px;font-weight:700;color:#e17055;margin:20px 0 10px;padding:8px 12px;background:#fff5f2;border-radius:8px;">
+    📁 파일명이 <strong>'contact'</strong>로 시작할 때 적용
+  </div>
+  <div class="rules-grid">
+    <div class="rule-item"><div class="rule-col">A열 → 업데이트 일자 (by 윤진P)</div><div class="rule-desc">변환 실행 날짜 자동 입력 (YYYY-MM-DD)</div></div>
+    <div class="rule-item"><div class="rule-col">B열 → 리드 인입/허블 가입 일자</div><div class="rule-desc">원본 R열 created at 날짜만 추출</div></div>
+    <div class="rule-item"><div class="rule-col">C열 → Lead 구분</div><div class="rule-desc">원본 T열 Organization / Lead 구분</div></div>
+    <div class="rule-item"><div class="rule-col">D열 → Assignee Email</div><div class="rule-desc">빈칸</div></div>
+    <div class="rule-item"><div class="rule-col">E열 → Organization Name</div><div class="rule-desc">원본 D열 Organization / Name</div></div>
+    <div class="rule-item"><div class="rule-col">F열 → Contact Full Name</div><div class="rule-desc">원본 A열 Full name</div></div>
+    <div class="rule-item"><div class="rule-col">G열 → 유입 경로(대)</div><div class="rule-desc">원본 K열 Forms</div></div>
+    <div class="rule-item"><div class="rule-col">H열 → 유입 경로(중)</div><div class="rule-desc">빈칸</div></div>
+    <div class="rule-item"><div class="rule-col">I열 → 유입 경로(소)</div><div class="rule-desc">빈칸</div></div>
+    <div class="rule-item"><div class="rule-col">J열 → 인입 시기(C)</div><div class="rule-desc">B열 날짜 → YYYY.MM 형식</div></div>
+    <div class="rule-item"><div class="rule-col">K열 → 부서</div><div class="rule-desc">원본 F열 부서</div></div>
+    <div class="rule-item"><div class="rule-col">L열 → Contact Title</div><div class="rule-desc">원본 G열 Title</div></div>
+    <div class="rule-item"><div class="rule-col">M열 → Contact Phone(수정 전)</div><div class="rule-desc">원본 M열 전화번호 그대로</div></div>
+    <div class="rule-item"><div class="rule-col">N열 → Contact Phone</div><div class="rule-desc">원본 M열 → 010-XXXX-XXXX 형식</div></div>
+    <div class="rule-item"><div class="rule-col">O열 → Contact Email</div><div class="rule-desc">원본 H열 이메일 주소</div></div>
+    <div class="rule-item"><div class="rule-col">P열 → 연 매출액</div><div class="rule-desc">빈칸 (열 제목만)</div></div>
+    <div class="rule-item"><div class="rule-col">Q열 → Industry</div><div class="rule-desc">빈칸 (열 제목만)</div></div>
+    <div class="rule-item"><div class="rule-col">R열 → Description</div><div class="rule-desc">원본 I열 Organization / 연 매출액</div></div>
+    <div class="rule-item"><div class="rule-col">S열 → 산업군</div><div class="rule-desc">원본 J열 Organization / Industry</div></div>
+  </div>
+
+  <div style="font-size:12px;font-weight:700;color:#00b894;margin:20px 0 10px;padding:8px 12px;background:#f0fdf9;border-radius:8px;">
+    📁 그 외 파일명일 때 적용 (리드폼 CSV 등)
+  </div>
+  <div class="rules-grid">
+    <div class="rule-item"><div class="rule-col">A열 → 업데이트 일자 (by 윤진P)</div><div class="rule-desc">변환 실행 날짜 자동 입력 (YYYY-MM-DD)</div></div>
+    <div class="rule-item"><div class="rule-col">B열 → 리드 인입/허블 가입 일자</div><div class="rule-desc">원본 C열(created_date) 날짜만 추출</div></div>
+    <div class="rule-item"><div class="rule-col">C열 → Lead 구분</div><div class="rule-desc">빈칸</div></div>
+    <div class="rule-item"><div class="rule-col">D열 → Assignee Email</div><div class="rule-desc">빈칸</div></div>
+    <div class="rule-item"><div class="rule-col">E열 → Organization Name</div><div class="rule-desc">원본 P열 회사이름</div></div>
+    <div class="rule-item"><div class="rule-col">F열 → Contact Full Name</div><div class="rule-desc">원본 K열 성 + J열 이름 합치기</div></div>
+    <div class="rule-item"><div class="rule-col">G열 → 유입 경로(대)</div><div class="rule-desc">원본 H열 form_name</div></div>
+    <div class="rule-item"><div class="rule-col">H열 → 유입 경로(중)</div><div class="rule-desc">빈칸</div></div>
+    <div class="rule-item"><div class="rule-col">I열 → 유입 경로(소)</div><div class="rule-desc">빈칸</div></div>
+    <div class="rule-item"><div class="rule-col">J열 → 인입 시기(C)</div><div class="rule-desc">B열 날짜 → YYYY.MM 형식</div></div>
+    <div class="rule-item"><div class="rule-col">K열 → 부서</div><div class="rule-desc">원본 N열 직종</div></div>
+    <div class="rule-item"><div class="rule-col">L열 → Contact Title</div><div class="rule-desc">원본 O열 직급</div></div>
+    <div class="rule-item"><div class="rule-col">M열 → Contact Phone(수정 전)</div><div class="rule-desc">원본 M열 전화번호 그대로</div></div>
+    <div class="rule-item"><div class="rule-col">N열 → Contact Phone</div><div class="rule-desc">원본 M열 → 010-XXXX-XXXX 형식</div></div>
+    <div class="rule-item"><div class="rule-col">O열 → Contact Email</div><div class="rule-desc">원본 L열 이메일 주소</div></div>
+    <div class="rule-item"><div class="rule-col">P열 → 연 매출액</div><div class="rule-desc">빈칸 (열 제목만)</div></div>
+    <div class="rule-item"><div class="rule-col">Q열 → Industry</div><div class="rule-desc">빈칸 (열 제목만)</div></div>
+    <div class="rule-item"><div class="rule-col">R열 → Description</div><div class="rule-desc">원본 S열 연 매출액 선택값</div></div>
+    <div class="rule-item"><div class="rule-col">S열 → 산업군</div><div class="rule-desc">원본 R열 산업군 선택값</div></div>
+  </div>
+</div>
+
+<script>
+  // ── DOM ──────────────────────────────────────────────
+  const dropZone   = document.getElementById('dropZone');
+  const fileInput  = document.getElementById('fileInput');
+  const fileInfo   = document.getElementById('fileInfo');
+  const fileName   = document.getElementById('fileName');
+  const fileRows   = document.getElementById('fileRows');
+  const convertBtn = document.getElementById('convertBtn');
+  const exportBtn  = document.getElementById('exportBtn');
+  const downloadBtn= document.getElementById('downloadBtn');
+  const statusBar  = document.getElementById('statusBar');
+  const statusMsg  = document.getElementById('statusMsg');
+  const errorBar   = document.getElementById('errorBar');
+  const successBar = document.getElementById('successBar');
+  const previewCard= document.getElementById('previewCard');
+  const previewWrap= document.getElementById('previewWrap');
+
+  let rawData = null;
+  let convertedData = null;
+  let tokenClient = null;
+  let currentFileName = '';
+
+  const GSHEETS_CLIENT_ID = '304259032345-cul6f0rba4hitqrgtge0210uii5b1j8r.apps.googleusercontent.com';
+
+  // ── 파일 업로드 ───────────────────────────────────────
+  dropZone.addEventListener('click', () => fileInput.click());
+  dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('over'); });
+  dropZone.addEventListener('dragleave', () => dropZone.classList.remove('over'));
+  dropZone.addEventListener('drop', e => { e.preventDefault(); dropZone.classList.remove('over'); handleFile(e.dataTransfer.files[0]); });
+  fileInput.addEventListener('change', e => handleFile(e.target.files[0]));
+
+  function handleFile(file) {
+    if (!file) return;
+    currentFileName = file.name;
+    clearAlerts();
+    const reader = new FileReader();
+    const isCsv = file.name.toLowerCase().endsWith('.csv');
+    reader.onload = e => {
+      try {
+        const wb = isCsv
+          ? XLSX.read(e.target.result, { type: 'string' })
+          : XLSX.read(e.target.result, { type: 'binary' });
+        const ws = wb.Sheets[wb.SheetNames[0]];
+        rawData = XLSX.utils.sheet_to_json(ws, { header: 1, defval: '' });
+        if (rawData.length < 2) throw new Error('데이터가 없습니다.');
+        fileName.textContent = file.name;
+        fileRows.textContent = `총 ${rawData.length - 1}개 행 인식됨`;
+        fileInfo.style.display = 'flex';
+        convertBtn.disabled = false;
+        exportBtn.disabled = true;
+        downloadBtn.style.display = 'none';
+        previewCard.style.display = 'none';
+        convertedData = null;
+      } catch(err) {
+        showError('파일 읽기 오류: ' + err.message);
+      }
+    };
+    if (isCsv) {
+      reader.readAsText(file, 'UTF-8');
+    } else {
+      reader.readAsBinaryString(file);
+    }
+  }
+
+  // ── 데이터 변환 함수 ──────────────────────────────────
+  function formatPhone(phone) {
+    if (!phone) return '';
+    // 숫자만 추출
+    let num = String(phone).trim().replace(/[^0-9]/g, '');
+    // 앞에 국가코드 82가 붙어있으면 제거 (821012345678 → 1012345678)
+    if (num.startsWith('82') && num.length >= 11) num = num.slice(2);
+    // 10으로 시작하면 앞에 0 추가 (1012345678 → 01012345678)
+    if (num.startsWith('10')) num = '0' + num;
+    // 0으로 시작하지 않으면 0 추가
+    else if (!num.startsWith('0')) num = '0' + num;
+    if (num.length === 11) return num.slice(0,3) + '-' + num.slice(3,7) + '-' + num.slice(7);
+    if (num.length === 10) return num.slice(0,3) + '-' + num.slice(3,6) + '-' + num.slice(6);
+    return num;
+  }
+
+  function extractDate(d) {
+    if (!d) return '';
+    const str = String(d).trim();
+    // Excel 시리얼 숫자 (예: 46112.26427...)
+    const num = parseFloat(str);
+    if (!isNaN(num) && /^\d+(\.\d+)?$/.test(str) && num > 40000 && num < 60000) {
+      const date = new Date(Math.round((num - 25569) * 86400 * 1000));
+      const y = date.getUTCFullYear();
+      const m = String(date.getUTCMonth() + 1).padStart(2, '0');
+      const dd = String(date.getUTCDate()).padStart(2, '0');
+      return `${y}-${m}-${dd}`;
+    }
+    // YYYY-MM-DD 또는 YYYY/MM/DD 형식 (시간 포함도 OK)
+    const m1 = str.match(/(\d{4})[-/](\d{2})[-/](\d{2})/);
+    if (m1) return `${m1[1]}-${m1[2]}-${m1[3]}`;
+    // 2026. 3. 31. 또는 2026.3.31 형식
+    const m2 = str.match(/(\d{4})\.\s*(\d{1,2})\.\s*(\d{1,2})/);
+    if (m2) return `${m2[1]}-${m2[2].padStart(2,'0')}-${m2[3].padStart(2,'0')}`;
+    return str.split(' ')[0];
+  }
+
+  function toYYYYMM(d) {
+    if (!d) return '';
+    const m = String(d).match(/(\d{4})[-./]\s*(\d{1,2})/);
+    return m ? m[1] + '.' + m[2].padStart(2, '0') : d;
+  }
+
+  function parseDept(val) {
+    if (!val) return { dept: '', title: '' };
+    const str = String(val);
+    const idx = str.indexOf('/');
+    if (idx === -1) return { dept: str.trim(), title: '' };
+    return { dept: str.slice(0, idx).trim(), title: str.slice(idx + 1).trim() };
+  }
+
+  function findCol(headers, keyword) {
+    const i = headers.findIndex(h => String(h).includes(keyword));
+    return i !== -1 ? i : null;
+  }
+
+  function convertData(data) {
+    const headers = data[0];
+    const C = {
+      사용자명: findCol(headers, '사용자명') ?? 1,
+      전화번호: findCol(headers, '전화번호') ?? 2,
+      회사명:   findCol(headers, '회사명')   ?? 3,
+      부서직책: findCol(headers, '부서')     ?? 4,
+      이메일:   findCol(headers, '이메일')   ?? 5,
+      플랜구분: findCol(headers, '플랜구분') ?? 7,
+      가입일시: findCol(headers, '가입일시') ?? 16,
+    };
+
+    const _d = new Date();
+    const today = `${_d.getFullYear()}-${String(_d.getMonth()+1).padStart(2,'0')}-${String(_d.getDate()).padStart(2,'0')}`; // 로컬 날짜
+
+    const outHeaders = [
+      '업데이트 일자 (by 윤진P)', // A
+      '리드 인입/허블 가입 일자',  // B
+      'Lead 구분',                 // C
+      'Assignee Email',            // D
+      'Organization Name',         // E
+      'Contact Full Name',         // F
+      '유입 경로(대)',              // G
+      '유입 경로(중)',              // H
+      '유입 경로(소)',              // I
+      '인입 시기(C)',               // J
+      '부서',                      // K
+      'Contact Title',             // L
+      'Contact Phone(수정 전)',     // M
+      'Contact Phone',             // N
+      'Contact Email',             // O
+      '연 매출액',                 // P
+      'Industry',                  // Q
+      'Description',               // R
+    ];
+
+    const rows = [outHeaders];
+
+    for (let i = 1; i < data.length; i++) {
+      const r = data[i];
+      if (r.every(v => v === '' || v == null)) continue;
+
+      const joinDate = extractDate(r[C.가입일시]);
+      const { dept, title } = parseDept(r[C.부서직책]);
+      const leadGubun = String(r[C.플랜구분]) === '오프라인 계약' ? '고객사' : '';
+
+      rows.push([
+        today,                        // A 업데이트 일자
+        joinDate,                     // B 리드 인입/허블 가입 일자
+        leadGubun,                    // C Lead 구분
+        '',                           // D Assignee Email
+        r[C.회사명] || '',            // E Organization Name
+        r[C.사용자명] || '',          // F Contact Full Name
+        '트라이얼 가입',              // G 유입 경로(대)
+        '',                           // H 유입 경로(중)
+        '',                           // I 유입 경로(소)
+        toYYYYMM(joinDate),           // J 인입 시기(C)
+        dept,                         // K 부서
+        title,                        // L Contact Title
+        r[C.전화번호] || '',          // M Contact Phone(수정 전)
+        formatPhone(r[C.전화번호]),   // N Contact Phone
+        r[C.이메일] || '',            // O Contact Email
+        '',                           // P 연 매출액
+        '',                           // Q Industry
+        '',                           // R Description
+      ]);
+    }
+    return rows;
+  }
+
+  // ── 리드폼 CSV 변환 함수 ──────────────────────────────
+  function convertDataOther(data) {
+    const headers = data[0];
+
+    // 원본 파일 열 인덱스 (0-based: A=0, B=1, C=2 ...)
+    // 키워드 매칭 우선, 없으면 열 위치 그대로 사용
+    const C = {
+      created_date: findCol(headers, 'created_date') ?? 2,   // C열
+      form_name:    findCol(headers, 'form_name')    ?? 7,   // H열
+      이름:          9,  // J열 (성/이름 혼동 방지를 위해 고정)
+      성:            10, // K열
+      이메일:        findCol(headers, '이메일') ?? 11,        // L열
+      전화번호:      findCol(headers, '전화번호') ?? 12,      // M열
+      직종:          findCol(headers, '직종') ?? 13,          // N열
+      직급:          findCol(headers, '직급') ?? 14,          // O열
+      회사이름:      findCol(headers, '회사') ?? 15,          // P열
+      산업군:        17, // R열 (헤더가 길어 고정)
+      연매출액:      18, // S열 (헤더가 길어 고정)
+    };
+
+    const _d = new Date();
+    const today = `${_d.getFullYear()}-${String(_d.getMonth()+1).padStart(2,'0')}-${String(_d.getDate()).padStart(2,'0')}`;
+
+    const outHeaders = [
+      '업데이트 일자 (by 윤진P)', // A
+      '리드 인입/허블 가입 일자',  // B
+      'Lead 구분',                 // C
+      'Assignee Email',            // D
+      'Organization Name',         // E
+      'Contact Full Name',         // F
+      '유입 경로(대)',              // G
+      '유입 경로(중)',              // H
+      '유입 경로(소)',              // I
+      '인입 시기(C)',               // J
+      '부서',                      // K
+      'Contact Title',             // L
+      'Contact Phone(수정 전)',     // M
+      'Contact Phone',             // N
+      'Contact Email',             // O
+      '연 매출액',                 // P
+      'Industry',                  // Q
+      'Description',               // R
+      '산업군',                    // S
+    ];
+
+    const rows = [outHeaders];
+
+    for (let i = 1; i < data.length; i++) {
+      const r = data[i];
+      if (r.every(v => v === '' || v == null)) continue;
+
+      const joinDate  = extractDate(r[C.created_date]);
+      const fullName  = (String(r[C.성] || '') + String(r[C.이름] || '')).trim();
+      const rawPhone  = r[C.전화번호] || '';
+
+      rows.push([
+        today,                      // A 업데이트 일자
+        joinDate,                   // B 리드 인입/허블 가입 일자
+        '',                         // C Lead 구분
+        '',                         // D Assignee Email
+        r[C.회사이름] || '',         // E Organization Name
+        fullName,                   // F Contact Full Name
+        r[C.form_name] || '',       // G 유입 경로(대)
+        '',                         // H 유입 경로(중)
+        '',                         // I 유입 경로(소)
+        toYYYYMM(joinDate),         // J 인입 시기(C)
+        r[C.직종] || '',            // K 부서
+        r[C.직급] || '',            // L Contact Title
+        rawPhone,                   // M Contact Phone(수정 전)
+        formatPhone(rawPhone),      // N Contact Phone
+        r[C.이메일] || '',          // O Contact Email
+        '',                         // P 연 매출액 (제목만)
+        '',                         // Q Industry (제목만)
+        r[C.연매출액] || '',        // R Description ← 원본 S열 연매출액
+        r[C.산업군] || '',          // S 산업군 ← 원본 R열 산업군
+      ]);
+    }
+    return rows;
+  }
+
+  // ── Contact CSV 변환 함수 ────────────────────────────
+  function convertDataContact(data) {
+    const headers = data[0];
+
+    // 원본 파일 열 인덱스 (0-based)
+    const C = {
+      fullName:    findCol(headers, 'Full name')   ?? findCol(headers, 'Full Name') ?? 0,  // A열
+      orgName:     findCol(headers, 'Organization / Name') ?? findCol(headers, 'Organization') ?? 3, // D열
+      dept:        5,  // F열 부서
+      title:       findCol(headers, 'Title') ?? 6, // G열
+      email:       findCol(headers, '이메일') ?? findCol(headers, 'Email') ?? 7, // H열
+      연매출액:    8,  // I열 Organization / 연 매출액
+      industry:    9,  // J열 Organization / Industry
+      forms:       findCol(headers, 'Forms') ?? 10, // K열
+      phone:       findCol(headers, 'Phone') ?? 12, // M열
+      createdAt:   findCol(headers, 'created at') ?? findCol(headers, 'Created At') ?? 17, // R열
+      leadGubun:   19, // T열 Organization / Lead 구분
+    };
+
+    const _d = new Date();
+    const today = `${_d.getFullYear()}-${String(_d.getMonth()+1).padStart(2,'0')}-${String(_d.getDate()).padStart(2,'0')}`;
+
+    const outHeaders = [
+      '업데이트 일자 (by 윤진P)', // A
+      '리드 인입/허블 가입 일자',  // B
+      'Lead 구분',                 // C
+      'Assignee Email',            // D
+      'Organization Name',         // E
+      'Contact Full Name',         // F
+      '유입 경로(대)',              // G
+      '유입 경로(중)',              // H
+      '유입 경로(소)',              // I
+      '인입 시기(C)',               // J
+      '부서',                      // K
+      'Contact Title',             // L
+      'Contact Phone(수정 전)',     // M
+      'Contact Phone',             // N
+      'Contact Email',             // O
+      '연 매출액',                 // P
+      'Industry',                  // Q
+      'Description',               // R
+      '산업군',                    // S
+    ];
+
+    const rows = [outHeaders];
+
+    for (let i = 1; i < data.length; i++) {
+      const r = data[i];
+      if (r.every(v => v === '' || v == null)) continue;
+
+      const joinDate = extractDate(r[C.createdAt]);
+      const rawPhone = r[C.phone] || '';
+
+      rows.push([
+        today,                      // A 업데이트 일자
+        joinDate,                   // B 리드 인입/허블 가입 일자
+        r[C.leadGubun] || '',       // C Lead 구분 ← 원본 T열
+        '',                         // D Assignee Email
+        r[C.orgName] || '',         // E Organization Name ← 원본 D열
+        r[C.fullName] || '',        // F Contact Full Name ← 원본 A열
+        r[C.forms] || '',           // G 유입 경로(대) ← 원본 K열 Forms
+        '',                         // H 유입 경로(중)
+        '',                         // I 유입 경로(소)
+        toYYYYMM(joinDate),         // J 인입 시기(C)
+        r[C.dept] || '',            // K 부서 ← 원본 F열
+        r[C.title] || '',           // L Contact Title ← 원본 G열
+        rawPhone,                   // M Contact Phone(수정 전)
+        formatPhone(rawPhone),      // N Contact Phone
+        r[C.email] || '',           // O Contact Email ← 원본 H열
+        '',                         // P 연 매출액 (제목만)
+        '',                         // Q Industry (제목만)
+        r[C.연매출액] || '',        // R Description ← 원본 I열 연 매출액
+        r[C.industry] || '',        // S 산업군 ← 원본 J열 Industry
+      ]);
+    }
+    return rows;
+  }
+
+  // ── 변환 버튼 ─────────────────────────────────────────
+  convertBtn.addEventListener('click', () => {
+    if (!rawData) return;
+    clearAlerts();
+    showStatus('변환 중...');
+    setTimeout(() => {
+      try {
+        const fn = currentFileName.toLowerCase();
+        convertedData = fn.startsWith('회원목록')
+          ? convertData(rawData)
+          : fn.startsWith('contact')
+            ? convertDataContact(rawData)
+            : convertDataOther(rawData);
+        hideStatus();
+        renderPreview(convertedData);
+        previewCard.style.display = 'block';
+        exportBtn.disabled = false;
+        downloadBtn.style.display = 'block';
+      } catch(err) {
+        hideStatus();
+        showError('변환 오류: ' + err.message);
+      }
+    }, 80);
+  });
+
+  function renderPreview(data) {
+    let html = '<table><thead><tr>';
+    data[0].forEach((h, i) => {
+      const col = i < 26 ? String.fromCharCode(65 + i) : String.fromCharCode(64 + Math.floor(i/26)) + String.fromCharCode(65 + (i%26));
+      html += `<th>${col}<small>${h || '—'}</small></th>`;
+    });
+    html += '</tr></thead><tbody>';
+    data.slice(1, 6).forEach(row => {
+      html += '<tr>' + row.map(v => `<td title="${v}">${v || ''}</td>`).join('') + '</tr>';
+    });
+    html += '</tbody></table>';
+    previewWrap.innerHTML = html;
+  }
+
+  // ── Google Sheets 내보내기 ────────────────────────────
+  exportBtn.addEventListener('click', () => {
+    if (!convertedData) return;
+
+    const clientId = GSHEETS_CLIENT_ID;
+
+    if (!window.google) {
+      showError('Google 라이브러리가 로드되지 않았습니다. 인터넷 연결을 확인해주세요.');
+      return;
+    }
+
+    clearAlerts();
+
+    tokenClient = google.accounts.oauth2.initTokenClient({
+      client_id: clientId,
+      scope: 'https://www.googleapis.com/auth/spreadsheets',
+      callback: handleToken,
+    });
+    tokenClient.requestAccessToken({ prompt: '' });
+  });
+
+  async function handleToken(response) {
+    if (response.error) {
+      showError('Google 인증 실패: ' + response.error);
+      return;
+    }
+    await pushToGoogleSheets(response.access_token);
+  }
+
+  async function pushToGoogleSheets(token) {
+    showStatus('Google 스프레드시트 생성 중...');
+    try {
+      const today = new Date().toISOString().slice(0, 10);
+
+      // 1. 스프레드시트 생성
+      const createRes = await fetch('https://sheets.googleapis.com/v4/spreadsheets', {
+        method: 'POST',
+        headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ properties: { title: `회원목록_변환_${today}` } })
+      });
+      if (!createRes.ok) {
+        const err = await createRes.json();
+        throw new Error(err.error?.message || createRes.status);
+      }
+      const sheet = await createRes.json();
+      const sheetName = sheet.sheets[0].properties.title; // 실제 시트 이름 사용
+
+      statusMsg.textContent = '데이터 업로드 중...';
+
+      // 2. 데이터 쓰기
+      const lastCol = String.fromCharCode(64 + convertedData[0].length);
+      const range = `${sheetName}!A1:${lastCol}${convertedData.length}`;
+      const writeRes = await fetch(
+        `https://sheets.googleapis.com/v4/spreadsheets/${sheet.spreadsheetId}/values/${encodeURIComponent(range)}?valueInputOption=RAW`,
+        {
+          method: 'PUT',
+          headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
+          body: JSON.stringify({ values: convertedData })
+        }
+      );
+      if (!writeRes.ok) {
+        const err = await writeRes.json();
+        throw new Error(err.error?.message || writeRes.status);
+      }
+
+      hideStatus();
+      showSuccess(`✅ 스프레드시트가 생성되었습니다! 새 탭에서 열립니다.`);
+      window.open(sheet.spreadsheetUrl, '_blank');
+
+    } catch(err) {
+      hideStatus();
+      showError('내보내기 실패: ' + err.message);
+    }
+  }
+
+  // ── 엑셀 다운로드 (보조) ──────────────────────────────
+  downloadBtn.addEventListener('click', () => {
+    if (!convertedData) return;
+    const ws = XLSX.utils.aoa_to_sheet(convertedData);
+    const colWidths = [18,16,10,18,20,14,14,14,14,10,16,16,20,16,24,12,14,20,20];
+    ws['!cols'] = colWidths.slice(0, convertedData[0].length).map(w => ({wch: w}));
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, '변환결과');
+    const _d2 = new Date();
+    const _today = `${_d2.getFullYear()}-${String(_d2.getMonth()+1).padStart(2,'0')}-${String(_d2.getDate()).padStart(2,'0')}`;
+    XLSX.writeFile(wb, `회원목록_변환_${_today}.xlsx`);
+  });
+
+  // ── 알림 헬퍼 ────────────────────────────────────────
+  function clearAlerts() {
+    [statusBar, errorBar, successBar].forEach(el => el.style.display = 'none');
+  }
+  function showStatus(msg) {
+    statusBar.style.display = 'flex';
+    statusMsg.textContent = msg;
+  }
+  function hideStatus() { statusBar.style.display = 'none'; }
+  function showError(msg) {
+    errorBar.style.display = 'flex';
+    errorBar.textContent = '⚠️ ' + msg;
+  }
+  function showSuccess(msg) {
+    successBar.style.display = 'flex';
+    successBar.textContent = msg;
+  }
+</script>
+</body>
+</html>
