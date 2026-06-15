@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="전국민의 검색 데이터로 경쟁사보다 먼저 시장의 수요를 포착합니다. 7일 무료 체험하기">
+  <title>리스닝마인드 — 하반기 전략의 시작</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif;
+      color: #111; background: #fff;
+      overflow-x: hidden; -webkit-font-smoothing: antialiased;
+    }
+    :root {
+      --red:     #E5292A;
+      --red-bg:  #FFF1F0;
+      --black:   #111111;
+      --sub:     #555555;
+      --border:  #E8E8E8;
+      --white:   #FFFFFF;
+      --g50:     #F8F8F8;
+      --g100:    #F0F0F0;
+    }
+    img { max-width: 100%; height: auto; display: block; }
+    a { text-decoration: none; color: inherit; }
+    button { cursor: pointer; border: none; background: none; font-family: inherit; }
+
+    .wrap { width: 100%; max-width: 480px; margin: 0 auto; padding: 0 20px; }
+    @media (min-width: 768px)  { .wrap { max-width: 860px;  padding: 0 40px; } }
+    @media (min-width: 1200px) { .wrap { max-width: 1180px; padding: 0 60px; } }
+
+    /* ── HEADER ── */
+    .header {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(255,255,255,.97); backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+    }
+    .header-inner {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 11px 20px; max-width: 1180px; margin: 0 auto;
+    }
+    .logo { display: flex; align-items: center; gap: 8px; }
+
+    /* 로고 아이콘: 리스닝마인드 로고.PNG에서 아이콘 부분만 크롭 */
+    .logo-icon-clip {
+      width: 36px; height: 36px;
+      overflow: hidden; flex-shrink: 0; border-radius: 4px;
+    }
+    .logo-icon-clip img {
+      /* 원본 이미지에서 상단 아이콘 부분만 표시 */
+      width: 210%;
+      margin-left: -54%;
+      margin-top: -4%;
+    }
+
+    .logo-name {
+      font-size: 15px; font-weight: 800;
+      color: var(--black); letter-spacing: -.3px;
+    }
+
+    .btn-sm {
+      background: var(--black); color: #fff;
+      font-size: 13px; font-weight: 600;
+      padding: 9px 18px; border-radius: 8px;
+      white-space: nowrap; transition: background .15s;
+    }
+    .btn-sm:hover { background: #333; }
+
+    /* ── HERO ── */
+    .hero {
+      background: #111; position: relative;
+      padding: 72px 0 68px; text-align: center; overflow: hidden;
+    }
+    .hero::before {
+      content: ''; position: absolute; pointer-events: none; border-radius: 50%;
+      width: 500px; height: 500px;
+      background: radial-gradient(circle,rgba(229,41,42,.15) 0%,transparent 65%);
+      top: -160px; left: 50%; transform: translateX(-50%);
+    }
+
+    /* 배지 — 깜빡임 없음 */
+    .hero-badge {
+      display: inline-flex; align-items: center;
+      background: rgba(229,41,42,.12); border: 1px solid rgba(229,41,42,.3);
+      color: #FF8080; font-size: 12px; font-weight: 600;
+      padding: 6px 16px; border-radius: 100px; margin-bottom: 28px;
+      position: relative; z-index: 1;
+    }
+
+    .hero-title {
+      font-size: 28px; font-weight: 900; color: #F8F8F8;
+      line-height: 1.35; letter-spacing: -1px; margin-bottom: 8px;
+      position: relative; z-index: 1;
+    }
+    .hero-title .hl { color: var(--red); }
+    .hero-divider {
+      width: 32px; height: 3px; background: var(--red);
+      border-radius: 2px; margin: 22px auto;
+    }
+    .hero-sub {
+      font-size: 16px; color: #aaa; line-height: 1.8;
+      margin-bottom: 36px; position: relative; z-index: 1;
+    }
+    .hero-sub strong { color: #ddd; font-weight: 700; }
+
+    .btn-hero {
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      background: var(--red); color: #fff;
+      font-size: 17px; font-weight: 700; padding: 17px 0;
+      border-radius: 12px; width: 100%; max-width: 340px;
+      box-shadow: 0 6px 28px rgba(229,41,42,.4);
+      transition: all .18s; position: relative; z-index: 1;
+    }
+    .btn-hero:hover { background: #cc2424; transform: translateY(-1px); }
+
+    /* ── SECTION COMMONS ── */
+    .sec-label {
+      font-size: 11px; font-weight: 700; color: var(--red);
+      letter-spacing: 2px; text-transform: uppercase; margin-bottom: 12px;
+    }
+    .sec-title {
+      font-size: 24px; font-weight: 800; color: var(--black);
+      line-height: 1.35; letter-spacing: -.7px; margin-bottom: 40px;
+    }
+    @media (min-width: 768px) { .sec-title { font-size: 32px; } }
+
+    /* ── PAIN POINT ── */
+    .pain { padding: 72px 0 80px; background: var(--white); }
+    .vs-wrap { position: relative; display: flex; flex-direction: column; }
+    .vs-sep { display: flex; align-items: center; justify-content: center; z-index: 2; }
+    .vs-chip {
+      width: 44px; height: 44px; background: var(--black);
+      border: 3px solid var(--white); border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 11px; font-weight: 800; color: var(--white);
+      box-shadow: 0 2px 12px rgba(0,0,0,.12);
+    }
+    .pain-card { padding: 28px 24px 32px; }
+    .pain-card.bad {
+      background: var(--g100); border: 1.5px solid var(--border);
+      border-radius: 20px 20px 0 0; padding-bottom: 36px;
+    }
+    .pain-card.good {
+      background: #fff; border: 1.5px solid #FECACA;
+      border-radius: 0 0 20px 20px; padding-top: 36px;
+    }
+    .pain-tag {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 12px; font-weight: 700; padding: 6px 14px;
+      border-radius: 100px; margin-bottom: 14px;
+    }
+    .pain-card.bad  .pain-tag { background: var(--border); color: #999; }
+    .pain-card.good .pain-tag { background: #FEE2E2; color: var(--red); }
+    .pain-h {
+      font-size: 20px; font-weight: 800; margin-bottom: 12px;
+      letter-spacing: -.5px;
+    }
+    .pain-card.bad  .pain-h { color: #aaa; }
+    .pain-card.good .pain-h { color: var(--black); }
+    .pain-p {
+      font-size: 16px; line-height: 1.75; color: var(--sub);
+      font-weight: 500;
+    }
+    .pain-card.good .pain-p { color: #333; }
+    @media (min-width: 768px) {
+      .vs-wrap { flex-direction: row; }
+      .pain-card { flex: 1; }
+      .pain-card.bad  { border-radius: 20px 0 0 20px; padding-bottom: 32px; border-right: none; }
+      .pain-card.good { border-radius: 0 20px 20px 0; padding-top: 32px; border-left: none; }
+      .vs-sep { width: 0; overflow: visible; align-self: center; }
+      .vs-chip { transform: translateX(-50%); }
+    }
+
+    /* ── VALUE PROPOSITION ── */
+    .value { padding: 72px 0 80px; background: var(--g50); }
+    .v-rows { display: flex; flex-direction: column; gap: 20px; }
+    .v-row {
+      background: var(--white); border-radius: 20px; overflow: hidden;
+      border: 1px solid var(--border);
+      box-shadow: 0 1px 3px rgba(0,0,0,.04), 0 8px 24px rgba(0,0,0,.05);
+      display: flex; flex-direction: column;
+    }
+    @media (min-width: 768px) {
+      .v-row { flex-direction: row; min-height: 280px; }
+      .v-row-img  { width: 52%; flex-shrink: 0; }
+      .v-row-body { flex: 1; }
+    }
+    .v-row-img {
+      aspect-ratio: 16/9; flex-shrink: 0; background: #111;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: 14px;
+      position: relative; overflow: hidden;
+    }
+    @media (min-width: 768px) { .v-row-img { aspect-ratio: auto; } }
+    .v-row-img::before {
+      content: ''; position: absolute; inset: 0;
+      background-image: radial-gradient(rgba(229,41,42,.08) 1px,transparent 1px);
+      background-size: 28px 28px;
+    }
+    .v-play {
+      width: 56px; height: 56px; background: var(--red); border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      position: relative; z-index: 1;
+      box-shadow: 0 4px 20px rgba(229,41,42,.5); transition: transform .18s;
+    }
+    .v-play:hover { transform: scale(1.08); }
+    .v-play svg { margin-left: 4px; }
+    .v-video-label {
+      font-size: 13px; font-weight: 600;
+      color: rgba(255,255,255,.5); position: relative; z-index: 1;
+    }
+    .v-row-body {
+      padding: 28px 24px 32px;
+      display: flex; flex-direction: column; justify-content: center;
+    }
+    @media (min-width: 768px) { .v-row-body { padding: 36px 36px 36px 40px; } }
+    .v-tag {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 13px; font-weight: 800; color: var(--red);
+      background: var(--red-bg); padding: 7px 16px;
+      border-radius: 100px; margin-bottom: 16px;
+      border: 1px solid #FECACA;
+    }
+    .v-h {
+      font-size: 22px; font-weight: 800; color: var(--black);
+      letter-spacing: -.6px; line-height: 1.3; margin-bottom: 14px;
+    }
+    @media (min-width: 768px) { .v-h { font-size: 24px; } }
+    .v-p {
+      font-size: 16px; line-height: 1.8; color: #333;
+      font-weight: 500;
+    }
+
+    /* ── DATA TOOLS ── */
+    .data-tools { padding: 72px 0 80px; background: var(--white); }
+
+    /* 가로 스크롤: 한 화면에 카드 약 2개 */
+    .tools-scroll-wrap {
+      margin: 0 -20px;
+    }
+    @media (min-width: 768px)  { .tools-scroll-wrap { margin: 0 -40px; } }
+    @media (min-width: 1200px) { .tools-scroll-wrap { margin: 0 -60px; } }
+
+    .tools-track {
+      display: flex;
+      gap: 14px;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      padding: 4px 20px 20px;
+    }
+    .tools-track::-webkit-scrollbar { display: none; }
+    @media (min-width: 768px)  { .tools-track { padding: 4px 40px 20px; gap: 18px; } }
+    @media (min-width: 1200px) { .tools-track { padding: 4px 60px 20px; } }
+
+    .tool-card {
+      flex-shrink: 0;
+      /* 한 화면에 2개 보이게: (100vw - 좌우패딩 - gap) / 2 */
+      width: calc(50vw - 27px);
+      min-width: 160px;
+      max-width: 280px;
+      background: var(--g50);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+      scroll-snap-align: start;
+    }
+    @media (min-width: 768px) {
+      .tool-card { width: 300px; max-width: 300px; }
+    }
+
+    /* 이미지 영역 — 교체 예정 */
+    .tool-img {
+      width: 100%; aspect-ratio: 4/3;
+      background: var(--g100);
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      overflow: hidden;
+    }
+    .tool-img img { width: 100%; height: 100%; object-fit: cover; }
+    .tool-img-ph {
+      display: flex; flex-direction: column; align-items: center; gap: 8px;
+    }
+    .tool-img-ph svg { opacity: .2; }
+    .tool-img-ph span { font-size: 10px; color: #bbb; font-weight: 500; text-align: center; line-height: 1.4; }
+
+    .tool-info { padding: 16px 16px 20px; }
+    /* 설명이 메인, 툴명은 서브 */
+    .tool-desc {
+      font-size: 15px; font-weight: 700; color: var(--black);
+      line-height: 1.45; letter-spacing: -.3px; margin-bottom: 6px;
+    }
+    .tool-name {
+      font-size: 12px; font-weight: 500; color: #999;
+      letter-spacing: .2px;
+    }
+    @media (min-width: 768px) {
+      .tool-info { padding: 20px 20px 24px; }
+      .tool-desc { font-size: 16px; }
+      .tool-name { font-size: 13px; }
+    }
+
+    /* ── SOCIAL PROOF ── */
+    .social { padding: 72px 0 80px; background: var(--g50); }
+
+    .client-logos-wrap { margin-bottom: 48px; }
+    .client-logos-img {
+      width: 100%; border-radius: 16px;
+      border: 1px solid var(--border);
+      background: #fff; padding: 4px;
+    }
+
+    .interviews { display: flex; flex-direction: column; gap: 16px; }
+    .ic-card {
+      border-radius: 16px; overflow: hidden;
+      border: 1px solid var(--border); background: var(--white);
+      transition: box-shadow .2s;
+    }
+    .ic-card:hover { box-shadow: 0 4px 20px rgba(0,0,0,.08); }
+    .ic-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 20px 24px 18px;
+      border-bottom: 1px solid var(--border); background: var(--g50);
+    }
+    .ic-company { display: flex; align-items: center; gap: 12px; }
+    .ic-avatar {
+      width: 44px; height: 44px; border-radius: 10px; background: var(--black);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 10px; font-weight: 800; color: #fff; flex-shrink: 0;
+      letter-spacing: -.3px; line-height: 1.3; text-align: center; padding: 4px;
+    }
+    .ic-company-name { font-size: 16px; font-weight: 800; color: var(--black); letter-spacing: -.4px; }
+    .ic-company-dept { font-size: 12px; color: #999; margin-top: 2px; }
+    .ic-badge {
+      font-size: 11px; font-weight: 700; color: var(--red);
+      background: var(--red-bg); border: 1px solid #FECACA;
+      padding: 5px 12px; border-radius: 100px; white-space: nowrap; flex-shrink: 0;
+    }
+    .ic-body { padding: 24px 24px 28px; }
+    .ic-quote-mark {
+      font-size: 44px; line-height: .9;
+      color: var(--red); font-family: Georgia, serif; margin-bottom: 10px;
+    }
+    .ic-quote {
+      font-size: 18px; font-weight: 700; color: var(--black);
+      line-height: 1.6; letter-spacing: -.5px;
+    }
+    @media (min-width: 768px) { .ic-quote { font-size: 20px; } }
+
+    /* ── FINAL CTA ── */
+    .final { padding: 80px 0 112px; background: var(--black); text-align: center; }
+    .final-eyebrow { font-size: 12px; font-weight: 600; color: #FF8080; margin-bottom: 20px; display: block; }
+    .final-title {
+      font-size: 28px; font-weight: 900; color: #fff;
+      letter-spacing: -1px; line-height: 1.3; margin-bottom: 18px;
+    }
+    @media (min-width: 768px) { .final-title { font-size: 38px; } }
+    .final-sub { font-size: 16px; color: #888; line-height: 1.75; margin-bottom: 40px; }
+    .final-btns { display: flex; flex-direction: column; align-items: center; gap: 14px; }
+    @media (min-width: 600px) {
+      .final-btns { flex-direction: row; justify-content: center; }
+      .btn-demo, .btn-trial-out { width: auto; padding-left: 36px; padding-right: 36px; }
+    }
+    .btn-demo {
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      background: var(--red); color: #fff; font-size: 16px; font-weight: 700;
+      padding: 17px 0; border-radius: 12px; width: 100%; max-width: 340px;
+      box-shadow: 0 4px 20px rgba(229,41,42,.4); transition: all .18s;
+    }
+    .btn-demo:hover { background: #cc2424; transform: translateY(-1px); }
+    .btn-trial-out {
+      display: inline-flex; align-items: center; justify-content: center;
+      background: transparent; color: #ccc; font-size: 15px; font-weight: 600;
+      padding: 15px 0; border-radius: 12px; width: 100%; max-width: 340px;
+      border: 1.5px solid #333; transition: all .18s;
+    }
+    .btn-trial-out:hover { border-color: #555; color: #fff; }
+
+    /* ── FLOATING BAR ── */
+    .float-bar {
+      position: fixed; bottom: 0; left: 0; right: 0; z-index: 90;
+      background: rgba(255,255,255,.97); backdrop-filter: blur(14px);
+      border-top: 1px solid var(--border);
+      padding: 12px 20px; padding-bottom: calc(12px + env(safe-area-inset-bottom,0px));
+      transform: translateY(0); transition: transform .3s ease;
+    }
+    .float-bar.is-hidden { transform: translateY(100%); }
+    .float-bar-btn {
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      background: var(--red); color: #fff; font-size: 16px; font-weight: 700;
+      padding: 16px; border-radius: 12px; width: 100%;
+      box-shadow: 0 4px 18px rgba(229,41,42,.35);
+    }
+    .float-bar-btn:active { background: #cc2424; }
+    @media (min-width: 768px) { .float-bar { display: none; } }
+
+    /* ── FADE-UP ── */
+    .fu { opacity:0; transform:translateY(24px); transition:opacity .6s ease,transform .6s ease; }
+    .fu.on { opacity:1; transform:translateY(0); }
+    .fu:nth-child(2) { transition-delay:.08s; }
+    .fu:nth-child(3) { transition-delay:.16s; }
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="header-inner">
+    <a href="#" class="logo" aria-label="ListeningMind">
+      <!-- 리스닝마인드 로고.PNG에서 아이콘 부분만 크롭 표시 -->
+      <div class="logo-icon-clip">
+        <img src="리스닝마인드 로고.PNG" alt="ListeningMind 아이콘">
+      </div>
+      <span class="logo-name">ListeningMind</span>
+    </a>
+    <a href="#trial" class="btn-sm">7일 무료 체험</a>
+  </div>
+</header>
+
+
+<!-- HERO -->
+<section class="hero">
+  <div class="wrap">
+    <!-- 깜빡임 없는 배지 -->
+    <div class="hero-badge">전국민 검색 인텐트 데이터</div>
+    <h1 class="hero-title">
+      우리가 자사 데이터만 볼 때,<br>
+      경쟁사는 <span class="hl">고객 인텐트 데이터</span>로<br>
+      시장을 읽고 선점합니다.
+    </h1>
+    <div class="hero-divider"></div>
+    <p class="hero-sub">
+      <strong>리스닝마인드</strong>는 전국민의 검색 데이터로<br>
+      경쟁사보다 먼저 시장의 수요를 포착합니다.
+    </p>
+    <a href="#trial" class="btn-hero">7일 무료 체험하기 →</a>
+    <!-- 신용카드 문구 삭제 -->
+  </div>
+</section>
+
+
+<!-- PAIN POINT -->
+<section class="pain">
+  <div class="wrap">
+    <p class="sec-label fu">DATA DIFFERENCE</p>
+    <h2 class="sec-title fu">하반기 성과를 결정할<br>데이터 차이</h2>
+    <div class="vs-wrap">
+      <div class="pain-card bad fu">
+        <span class="pain-tag">❌&nbsp; 자사 데이터</span>
+        <h3 class="pain-h">이미 산 사람들의 기록</h3>
+        <p class="pain-p">작년 매출 추이와 내부 이탈율만 보고 계신가요? 아직 유입되지 않은 새로운 고객을 데려올 단서가 존재하지 않습니다.</p>
+      </div>
+      <div class="vs-sep"><div class="vs-chip">VS</div></div>
+      <div class="pain-card good fu">
+        <span class="pain-tag">✅&nbsp; 인텐트 데이터</span>
+        <h3 class="pain-h">잠재고객의 속마음</h3>
+        <p class="pain-p">소비자의 미충족 니즈는 검색창에 실시간으로 기록됩니다. 경쟁사는 고객이 검색창에 남긴 의도를 해석해 먼저 움직이고 있습니다.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- VALUE PROPOSITION -->
+<section class="value">
+  <div class="wrap">
+    <p class="sec-label fu">CORE VALUE</p>
+    <h2 class="sec-title fu">지금 우리의 경쟁사가<br>검색데이터에 주목하는 이유</h2>
+    <div class="v-rows">
+
+      <!-- ★ 영상 교체 예정: 소비자 롱테일 키워드 -->
+      <div class="v-row fu">
+        <div class="v-row-img" role="img" aria-label="소비자 롱테일 키워드 영상">
+          <button class="v-play" aria-label="영상 재생">
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M5 3l11 6-11 6V3z" fill="white"/></svg>
+          </button>
+          <span class="v-video-label">소비자 롱테일 키워드</span>
+        </div>
+        <div class="v-row-body">
+          <span class="v-tag">🎯&nbsp; 성과 돌파</span>
+          <h3 class="v-h">인텐트 기반의 성장 전략</h3>
+          <p class="v-p">전국민의 검색 데이터로 하반기 시장의 숨은 니즈를 선제적으로 포착하여 정체된 성장의 돌파구를 찾습니다.</p>
+        </div>
+      </div>
+
+      <!-- ★ 영상 교체 예정: 저니파인더 -->
+      <div class="v-row fu">
+        <div class="v-row-img" role="img" aria-label="저니파인더 영상">
+          <button class="v-play" aria-label="영상 재생">
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M5 3l11 6-11 6V3z" fill="white"/></svg>
+          </button>
+          <span class="v-video-label">저니파인더</span>
+        </div>
+        <div class="v-row-body">
+          <span class="v-tag">📊&nbsp; 확신 있는 전략</span>
+          <h3 class="v-h">전체 여정 기반의 인사이트</h3>
+          <p class="v-p">고객의 전체 여정을 데이터로 통합하여 시장이 움직이는 진짜 이유와 근거를 확보합니다.</p>
+        </div>
+      </div>
+
+      <!-- ★ 영상 교체 예정: AI 옵티마이저 · CEP 파인더 -->
+      <div class="v-row fu">
+        <div class="v-row-img" role="img" aria-label="AI 옵티마이저 · CEP 파인더 영상">
+          <button class="v-play" aria-label="영상 재생">
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M5 3l11 6-11 6V3z" fill="white"/></svg>
+          </button>
+          <span class="v-video-label">AI 옵티마이저 · CEP 파인더</span>
+        </div>
+        <div class="v-row-body">
+          <span class="v-tag">⚡&nbsp; 효율의 극대화</span>
+          <h3 class="v-h">즉각적인 실행 전략</h3>
+          <p class="v-p">핵심 CEP 분석으로 시행착오를 줄이고, AI 검색(GEO) 시대에 필연적으로 선택받는 전략을 설계합니다.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- DATA TOOLS -->
+<section class="data-tools">
+  <div class="wrap">
+    <p class="sec-label fu">PRODUCT</p>
+    <h2 class="sec-title fu">하반기 전략 방향,<br>데이터 속에 답이 있습니다.</h2>
+  </div>
+
+  <!-- 가로 스크롤 — 이미지 교체 시 .tool-img 안에 <img src="..."> 삽입 -->
+  <div class="tools-scroll-wrap">
+    <div class="tools-track">
+
+      <div class="tool-card">
+        <div class="tool-img">
+          <div class="tool-img-ph">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#bbb" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+            <span>이미지<br>교체 예정</span>
+          </div>
+        </div>
+        <div class="tool-info">
+          <p class="tool-desc">검색 경로로 이탈 지점 파악</p>
+          <p class="tool-name">패스파인더</p>
+        </div>
+      </div>
+
+      <div class="tool-card">
+        <div class="tool-img">
+          <div class="tool-img-ph">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#bbb" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+            <span>이미지<br>교체 예정</span>
+          </div>
+        </div>
+        <div class="tool-info">
+          <p class="tool-desc">우리 제품·브랜드를 떠올리는 순간과 맥락</p>
+          <p class="tool-name">CEP 파인더</p>
+        </div>
+      </div>
+
+      <div class="tool-card">
+        <div class="tool-img">
+          <div class="tool-img-ph">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#bbb" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+            <span>이미지<br>교체 예정</span>
+          </div>
+        </div>
+        <div class="tool-info">
+          <p class="tool-desc">시장 내 주요 인텐트·트렌드 발굴</p>
+          <p class="tool-name">쿼리파인더</p>
+        </div>
+      </div>
+
+      <div class="tool-card">
+        <div class="tool-img">
+          <div class="tool-img-ph">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#bbb" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+            <span>이미지<br>교체 예정</span>
+          </div>
+        </div>
+        <div class="tool-info">
+          <p class="tool-desc">제품 관련 소비자 인지 현황</p>
+          <p class="tool-name">클러스터파인더</p>
+        </div>
+      </div>
+
+      <div class="tool-card">
+        <div class="tool-img">
+          <div class="tool-img-ph">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#bbb" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+            <span>이미지<br>교체 예정</span>
+          </div>
+        </div>
+        <div class="tool-info">
+          <p class="tool-desc">JTBD 기반의 소비자 분류</p>
+          <p class="tool-name">페르소나뷰</p>
+        </div>
+      </div>
+
+      <div class="tool-card">
+        <div class="tool-img">
+          <div class="tool-img-ph">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#bbb" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+            <span>이미지<br>교체 예정</span>
+          </div>
+        </div>
+        <div class="tool-info">
+          <p class="tool-desc">고객 여정별 주요 토픽·브랜드 가시성 확인</p>
+          <p class="tool-name">저니파인더</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- SOCIAL PROOF -->
+<section class="social">
+  <div class="wrap">
+    <p class="sec-label fu">SOCIAL PROOF</p>
+    <h2 class="sec-title fu">글로벌 200개+ 기업이 선택한<br>리스닝마인드 데이터</h2>
+
+    <!-- 도입 고객사 로고 이미지 (라벨 없음) -->
+    <div class="client-logos-wrap fu">
+      <img src="리스닝마인드 도입 고객사.png" alt="리스닝마인드 도입 고객사" class="client-logos-img">
+    </div>
+
+    <!-- 고객 인터뷰 -->
+    <div class="interviews">
+
+      <div class="ic-card fu">
+        <div class="ic-header">
+          <div class="ic-company">
+            <div class="ic-avatar">삼성물산</div>
+            <div>
+              <p class="ic-company-name">삼성물산 패션부문</p>
+              <p class="ic-company-dept">마케팅 전략팀</p>
+            </div>
+          </div>
+          <span class="ic-badge">패션</span>
+        </div>
+        <div class="ic-body">
+          <div class="ic-quote-mark">"</div>
+          <p class="ic-quote">트렌드는 감이 아니라 데이터로 읽어야 합니다.</p>
+        </div>
+      </div>
+
+      <div class="ic-card fu">
+        <div class="ic-header">
+          <div class="ic-company">
+            <div class="ic-avatar">종근당건강</div>
+            <div>
+              <p class="ic-company-name">종근당건강</p>
+              <p class="ic-company-dept">브랜드 마케팅팀</p>
+            </div>
+          </div>
+          <span class="ic-badge">건기식</span>
+        </div>
+        <div class="ic-body">
+          <div class="ic-quote-mark">"</div>
+          <p class="ic-quote">데이터를 기반으로 락토핏 키메세지를 설정했어요.</p>
+        </div>
+      </div>
+
+      <div class="ic-card fu">
+        <div class="ic-header">
+          <div class="ic-company">
+            <div class="ic-avatar" style="font-size:13px;letter-spacing:0;">DXE</div>
+            <div>
+              <p class="ic-company-name">DXE</p>
+              <p class="ic-company-dept">디지털 마케팅팀</p>
+            </div>
+          </div>
+          <span class="ic-badge">광고대행사</span>
+        </div>
+        <div class="ic-body">
+          <div class="ic-quote-mark">"</div>
+          <p class="ic-quote">정량적 근거로 광고주를 설득했어요.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- FINAL CTA -->
+<section class="final" id="trial">
+  <div class="wrap">
+    <span class="final-eyebrow">지금 바로 시작하세요</span>
+    <h2 class="final-title fu">지금 7일간 무료로<br>직접 확인하세요</h2>
+    <p class="final-sub fu">전국민 검색 인텐트 데이터로<br>하반기 전략의 판을 바꾸세요.</p>
+    <div class="final-btns fu">
+      <a href="#" class="btn-demo">맞춤형 데모 신청하기</a>
+      <a href="#" class="btn-trial-out">7일 무료 체험하기 →</a>
+    </div>
+  </div>
+</section>
+
+
+<!-- FLOATING BAR -->
+<div class="float-bar" id="floatBar">
+  <button class="float-bar-btn" onclick="location.href='#trial'">7일 무료 체험하기 →</button>
+</div>
+
+
+<script>
+  /* Fade-up */
+  const ioFu = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('on'); });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.fu').forEach(el => ioFu.observe(el));
+
+  /* Float bar */
+  const floatBar = document.getElementById('floatBar');
+  const ioHide = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) floatBar.classList.add('is-hidden'); });
+  }, { threshold: 0.05 });
+  const ioShow = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (!e.isIntersecting) floatBar.classList.remove('is-hidden'); });
+  }, { threshold: 0.3 });
+  ioHide.observe(document.getElementById('trial'));
+  ioHide.observe(document.querySelector('.hero'));
+  ioShow.observe(document.querySelector('.hero'));
+</script>
+</body>
+</html>
