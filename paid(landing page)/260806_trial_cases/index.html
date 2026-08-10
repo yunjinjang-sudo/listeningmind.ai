@@ -3,8 +3,19 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="소비자가 검색창에 남긴 키워드가, 이번 분기 성과를 바꿉니다 — 리스닝마인드">
-<title>리스닝마인드 — 소비자가 검색창에 남긴 키워드가, 이번 분기 성과를 바꿉니다</title>
+<meta name="description" content="브랜드 전략과 연결되는 소비자 고민, 리스닝마인드에서 발견하세요.">
+<title>리스닝마인드 - 검색창 속 소비자 키워드가 이번 분기 성과를 결정합니다</title>
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://listeningmindusecases.vercel.app/">
+<meta property="og:title" content="검색창 속 소비자 키워드가 이번 분기 성과를 결정합니다 — 리스닝마인드">
+<meta property="og:description" content="브랜드 전략과 연결되는 소비자 고민, 리스닝마인드에서 발견하세요.">
+<meta property="og:image" content="https://listeningmindusecases.vercel.app/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="검색창 속 소비자 키워드가 이번 분기 성과를 결정합니다 — 리스닝마인드">
+<meta name="twitter:description" content="브랜드 전략과 연결되는 소비자 고민, 리스닝마인드에서 발견하세요.">
+<meta name="twitter:image" content="https://listeningmindusecases.vercel.app/og-image.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700;800;900&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
@@ -64,10 +75,8 @@
   /* ── HEADER ── */
   .header{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.82);backdrop-filter:blur(16px);border-bottom:1px solid var(--line);}
   .header-in{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;max-width:1220px;margin:0 auto;}
-  .logo{display:flex;align-items:center;gap:9px;}
-  .logo-mark{width:30px;height:30px;border-radius:9px;background:linear-gradient(135deg,var(--pink),var(--gold));flex-shrink:0;position:relative;}
-  .logo-mark::after{content:'';position:absolute;inset:8px;border-radius:50%;border:2px solid #fff;border-right-color:transparent;transform:rotate(45deg);}
-  .logo-name{font-size:16px;font-weight:800;color:var(--ink);letter-spacing:-.3px;}
+  .logo{display:flex;align-items:center;}
+  .logo-img{height:26px;width:auto;display:block;}
   .nav{display:none;align-items:center;gap:36px;}
   @media(min-width:900px){.nav{display:flex;}}
   .nav a{font-size:14px;font-weight:600;color:var(--sub);transition:color .15s;}
@@ -156,7 +165,9 @@
   /* ── CLIENTS ── */
   .clients{padding:70px 0;}
   .trust-label{text-align:center;font-size:13px;font-weight:700;color:var(--sub);margin-bottom:30px;}
-  .trust-img{border:1px solid var(--line);border-radius:20px;overflow:hidden;box-shadow:0 24px 60px rgba(27,24,21,.06);}
+  .trust-scroll{width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch;border:1px solid var(--line);border-radius:20px;box-shadow:0 24px 60px rgba(27,24,21,.06);}
+  .trust-img{display:block;width:960px;max-width:none;}
+  @media(min-width:1024px){.trust-img{width:100%;}}
 
   /* ── CLOSING ── */
   .closing{padding:0 0 110px;}
@@ -184,13 +195,11 @@
   <header class="header">
     <div class="header-in">
       <div class="logo">
-        <div class="logo-mark"></div>
-        <span class="logo-name">리스닝마인드</span>
+        <a href="https://www.listeningmind.com/ko"><img class="logo-img" src="listeningmind-logo.png" alt="리스닝마인드"></a>
       </div>
       <nav class="nav">
-        <a href="#features">기능</a>
-        <a href="#insight">인사이트</a>
         <a href="#cases">사례</a>
+        <a href="#features">기능</a>
       </nav>
       <a href="https://www.listeningmind.com/ko" class="btn-chip">무료로 시작하기</a>
     </div>
@@ -230,11 +239,11 @@
         <span>검색 경로</span>
         <span>전체 검색 여정(CDJ)</span>
         <span>카테고리 엔트리 포인트(CEP)</span>
-        <span>의도 기반의 페르소나</span>
+        <span>의도 기반 페르소나</span>
         <span>GEO 현황 및 타겟 프롬프트</span>
         <span>상위 콘텐츠 분석</span>
       </div>
-      <p class="insight-desc">리스닝마인드는 <b>검색데이터 기반 '인텐트 분석 AI 플랫폼'</b>으로<br><b>전략으로 이어지는 소비자 데이터</b>를 보여줍니다.</p>
+      <p class="insight-desc">리스닝마인드는<br><b>검색데이터 기반 '인텐트 분석 AI 플랫폼'</b>으로<br><b>전략까지 이어지는 소비자 데이터</b>를 보여줍니다.</p>
     </div>
   </section>
 
@@ -242,38 +251,38 @@
     <div class="wrap">
       <div class="sec-head">
         <div class="sec-eyebrow">CASE</div>
-        <h2 class="sec-title">검색 데이터를<br>성과로 바꾼 실제 사례</h2>
+        <h2 class="sec-title">검색데이터를<br>성과로 바꾼 실제 사례</h2>
       </div>
       <div class="case-grid">
         <div class="case-card">
           <div class="case-top"><img class="case-avatar" loading="lazy" src="profile/avatar_01_food-marketing.png" alt=""><span class="case-tag">신제품 전략</span><span class="case-client">식품 브랜드 · 매출 4조원대 · 마케팅팀</span></div>
           <p class="case-quote">"소비자가 우리 제품을 '진짜' 필요로 하는 순간은 따로 있었어요."</p>
-          <p class="case-desc">'건강식', '간편식', '건강 간편식' 키워드로 4년치 검색 데이터를 뜯어보니, 예상했던 대로 시장 규모가 줄어들고 있었습니다. 하지만 그 안에서도 크게 성장하고 있는 CEP를 발견할 수 있었습니다.</p>
+          <p class="case-desc">'건강식', '간편식', '건강 간편식' 키워드로 4년치 검색데이터를 뜯어보니, 예상했던 대로 시장 규모가 줄어들고 있었습니다. 하지만 그 안에서도 크게 성장하고 있는 CEP를 발견할 수 있었습니다.</p>
           <div class="case-ba"><b>Before</b> 리뉴얼 실패 원인을 사후적으로 추측 → <b>After</b> 소비자의 실제 일상 접점(CEP) 기반 상품 기획</div>
         </div>
         <div class="case-card">
           <div class="case-top"><img class="case-avatar" loading="lazy" src="profile/avatar_02_beauty-global.png" alt=""><span class="case-tag">글로벌 시장조사</span><span class="case-client">뷰티 브랜드 · 매출 5,000억원대 · 해외사업부</span></div>
-          <p class="case-quote">"일본어를 몰라도, MCP 연결해서 일본 소비자의 속마음 읽었죠"</p>
+          <p class="case-quote">"일본어를 몰라도, MCP 연결해서 일본 소비자의 속마음 읽었죠."</p>
           <p class="case-desc">MCP로 챗봇과 연결해 대화하듯 질문만 던지면, 별도 번역이나 현지 리서처 없이 일본 소비자의 검색 인텐트를 바로 확인할 수 있었습니다.</p>
           <div class="case-ba"><b>Before</b> 언어 장벽으로 현지 리서치 인력에 의존 → <b>After</b> MCP 대화형 분석으로 직접 인텐트 확인 및 즉시 전략 검증</div>
         </div>
         <div class="case-card">
           <div class="case-top"><img class="case-avatar" loading="lazy" src="profile/avatar_03_fashion-research.png" alt=""><span class="case-tag">트렌드 발굴</span><span class="case-client">패션 브랜드 · 매출 4조원대 · 연구팀</span></div>
-          <p class="case-quote">"경쟁사보다 먼저 트렌드를 파악하는 법, 검색 데이터로 가능했어요."</p>
+          <p class="case-quote">"경쟁사보다 먼저 트렌드를 파악하는 법, 검색데이터로 가능했어요."</p>
           <p class="case-desc">아직 언론이나 커뮤니티에 확산되기 전, 검색량이 조용히 움직이기 시작하는 시점을 포착해 차년도 주력 상품 후보를 미리 선별했습니다.</p>
           <div class="case-ba"><b>Before</b> 트렌드 여부를 두고 팀 내 의견이 갈려 결론 없이 끝나던 회의 → <b>After</b> 데이터를 근거로 빠르게 합의하고, 이 방식이 마케팅 등 타 부서로 확산</div>
         </div>
         <div class="case-card">
           <div class="case-top"><img class="case-avatar" loading="lazy" src="profile/avatar_04_finance-content.png" alt=""><span class="case-tag">콘텐츠 기획</span><span class="case-client">금융 · 매출 42조원대 · 콘텐츠팀</span></div>
-          <p class="case-quote">"소비자 진짜 고민을 콘텐츠로 연결하니 성과가 나기 시작했어요"</p>
-          <p class="case-desc">제품을 찾아보기도 전 단계의 잠재고객이 조용히 하고 있던 고민을 포착해, 인텐트에 맞춘 콘텐츠로 바로 연결했습니다.</p>
+          <p class="case-quote">"소비자 진짜 고민을 콘텐츠로 연결하니 성과가 나기 시작했어요."</p>
+          <p class="case-desc">검색데이터에서 잠재고객의 고민을 발견해, 인텐트에 맞춘 콘텐츠로 연결했습니다.</p>
           <div class="case-ba"><b>Before</b> 가입자 데이터 기반의 사후적 콘텐츠 → <b>After</b> 잠재고객 인텐트 기반 선제적 콘텐츠, 상위노출 성과</div>
         </div>
         <div class="case-card">
           <div class="case-top"><img class="case-avatar" loading="lazy" src="profile/avatar_05_agency-people.png" alt=""><span class="case-tag">경쟁 PT 전략 점검</span><span class="case-client">광고대행사 · 매출 900억원대 · 피플팀</span></div>
-          <p class="case-quote">"우리가 확신했던 그 소구점, 소비자는 관심조차 없었습니다"</p>
-          <p class="case-desc">브랜드 실무자 입장에서 당연히 중요하다고 여겼던 키워드가, 실제 검색 데이터에는 단 한 번도 등장하지 않았습니다.</p>
-          <div class="case-ba"><b>Before</b> 제안서를 다 쓴 뒤에야 결과로 소구점의 실패를 확인하던 관행 → <b>After</b> 팩트북 작성 단계에서부터 검색 데이터로 소구점을 미리 검증하는 프로세스로 정착</div>
+          <p class="case-quote">"우리가 확신했던 그 소구점, 소비자는 관심조차 없었습니다."</p>
+          <p class="case-desc">브랜드 실무자 입장에서 당연히 중요하다고 여겼던 키워드가, 실제 검색데이터에는 단 한 번도 등장하지 않았습니다.</p>
+          <div class="case-ba"><b>Before</b> 제안서를 다 쓴 뒤에야 결과로 소구점의 실패를 확인하던 관행 → <b>After</b> 검색데이터로 소구점을 미리 검증하는 프로세스로 정착</div>
         </div>
       </div>
     </div>
@@ -283,26 +292,26 @@
     <div class="wrap">
       <div class="sec-head">
         <div class="sec-eyebrow">FEATURE</div>
-        <h2 class="sec-title">200개+ 기업이 전략 수립에 참고하는<br>리스닝마인드 데이터</h2>
+        <h2 class="sec-title">200개+ 기업이<br>전략 수립에 참고하는<br>리스닝마인드 데이터</h2>
       </div>
       <div class="feat-grid">
         <div class="feat-card c1">
-          <div class="feat-media"><video preload="metadata" src="gif test/cep-finder.mp4" autoplay muted loop playsinline></video></div>
-          <div class="feat-head"><span class="feat-icon">🧭</span><span class="feat-title">CEP 발굴</span></div>
+          <div class="feat-media"><video preload="metadata" src="gif test/cep-finder.mp4" muted loop playsinline></video></div>
+          <div class="feat-head"><span class="feat-icon">🧭</span><span class="feat-title">CEP(Category Entry Points) 발굴</span></div>
           <div class="feat-desc">소비자가 특정 카테고리를 처음 떠올리는 순간을 포착해, 놓치고 있던 시장 기회를 발견합니다.</div>
         </div>
         <div class="feat-card c2">
-          <div class="feat-media"><video preload="metadata" src="gif test/journey-finder.mp4" autoplay muted loop playsinline></video></div>
+          <div class="feat-media"><video preload="metadata" src="gif test/journey-finder.mp4" muted loop playsinline></video></div>
           <div class="feat-head"><span class="feat-icon">🗺️</span><span class="feat-title">고객 검색 여정(CDJ) 분석</span></div>
-          <div class="feat-desc">검색부터 구매까지 이어지는 전체 여정(CDJ)을 데이터로 재구성해 전체 흐름을 조망합니다.</div>
+          <div class="feat-desc">검색부터 구매까지 이어지는 여정(CDJ)을 데이터로 재구성해 전체 흐름을 조망합니다.</div>
         </div>
         <div class="feat-card c3">
-          <div class="feat-media"><span>GIF 800×600</span></div>
+          <div class="feat-media"><video preload="metadata" src="gif test/path-finder.mp4" muted loop playsinline></video></div>
           <div class="feat-head"><span class="feat-icon">🔗</span><span class="feat-title">검색 경로 확인</span></div>
           <div class="feat-desc">하나의 키워드가 어떤 경로를 거쳐 다른 검색으로 이어지는지 추적해 소비자 맥락을 짚어냅니다.</div>
         </div>
         <div class="feat-card c4">
-          <div class="feat-media"><span>GIF 800×600</span></div>
+          <div class="feat-media"><video preload="metadata" src="gif test/ai-optimizer.mp4" muted loop playsinline></video></div>
           <div class="feat-head"><span class="feat-icon">🤖</span><span class="feat-title">GEO 전략 구상</span></div>
           <div class="feat-desc">생성형 AI 검색 노출 현황과 타겟 프롬프트를 분석해 GEO 대응 전략을 세울 수 있습니다.</div>
         </div>
@@ -313,21 +322,24 @@
   <section class="clients">
     <div class="wrap">
       <div class="sec-head" style="margin-bottom:20px;">
-        <h2 class="sec-title">고객사</h2>
+        <div class="sec-eyebrow">CLIENTS</div>
+        <h2 class="sec-title">뷰티부터 금융까지,<br>리스닝마인드와 함께하는 기업들</h2>
       </div>
       <p class="trust-label">다양한 업종의 브랜드가 리스닝마인드와 함께합니다</p>
-      <img class="trust-img" src="client.webp" loading="lazy" alt="리스닝마인드 고객사 로고 — 뷰티·패션, 식품·음료, 헬스케어·제약·생활용품, 광고·마케팅 대행사, 전자·IT, 금융, 가구·리빙">
+      <div class="trust-scroll">
+        <img class="trust-img" src="client.webp" loading="lazy" alt="리스닝마인드 고객사 로고 — 뷰티·패션, 식품·음료, 헬스케어·제약·생활용품, 광고·마케팅 대행사, 전자·IT, 금융, 가구·리빙">
+      </div>
     </div>
   </section>
 
   <section class="closing">
     <div class="wrap">
       <div class="cta-final">
-        <p class="cta-final-title">무료로 우리 브랜드 데이터 확인하기</p>
-        <p class="cta-final-sub">리스닝마인드에 가입하면 누구나 7일간 무료 체험이 가능합니다.<br>가입 후 자사/경쟁사 검색 데이터를 확인해 보세요.</p>
+        <p class="cta-final-title">무료로<br>우리 브랜드 데이터 확인하기</p>
+        <p class="cta-final-sub">리스닝마인드에 가입하면 누구나 7일간 무료 체험이 가능합니다.<br>가입 후 자사/경쟁사 검색데이터를 확인해 보세요.</p>
         <div class="cta-final-btns">
           <a href="https://www.listeningmind.com/ko" class="btn-primary">무료로 시작하기</a>
-          <a href="#" class="btn-line">서비스소개서 다운로드</a>
+          <a href="https://public.relate.so/p/forms/upnjmn2psyh7njf2" class="btn-line" target="_blank" rel="noopener">서비스소개서 다운로드</a>
         </div>
       </div>
     </div>
@@ -336,8 +348,7 @@
   <footer class="footer">
     <div class="wrap footer-in">
       <div class="logo">
-        <div class="logo-mark"></div>
-        <span class="logo-name">리스닝마인드</span>
+        <a href="https://www.listeningmind.com/ko"><img class="logo-img" src="listeningmind-logo.png" alt="리스닝마인드"></a>
       </div>
       <p class="footer-copy">© 2026 ListeningMind. All rights reserved.</p>
     </div>
@@ -369,6 +380,26 @@
       setTimeout(tick, deleting ? 38 : 78);
     }
     tick();
+
+    const featVideos = document.querySelectorAll('.feat-media video');
+    featVideos.forEach(function(v){
+      v.addEventListener('pause', function(){
+        if (v.dataset.inView === '1') v.play().catch(function(){});
+      });
+    });
+    const videoIO = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        const v = entry.target;
+        if (entry.isIntersecting) {
+          v.dataset.inView = '1';
+          v.play().catch(function(){});
+        } else {
+          v.dataset.inView = '0';
+          v.pause();
+        }
+      });
+    }, { threshold: 0.25 });
+    featVideos.forEach(function(v){ videoIO.observe(v); });
   </script>
 
 </body>
